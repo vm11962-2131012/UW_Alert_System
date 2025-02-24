@@ -3,7 +3,7 @@
 function fetch911Data() {
   console.log("Fetching latest 911 data...");
 
-  fetch('https://data.seattle.gov/resource/33kz-ixgy.json?$limit=1000&$order=cad_event_original_time_queued DESC&$where=final_call_type LIKE \'%ASSAULT%\' OR final_call_type LIKE \'%ROBBERY%\' OR final_call_type LIKE \'%FIRE%\' OR final_call_type LIKE \'%MEDICAL EMERGENCY%\'')
+  fetch('https://data.seattle.gov/resource/33kz-ixgy.json?$limit=1000&$order=cad_event_original_time_queued DESC&$where=final_call_type LIKE \'%ASSAULT%\' OR final_call_type LIKE \'%ROBBERY%\' OR final_call_type LIKE \'%FIRE%\' OR final_call_type LIKE \'%SHOOTING%\'')
   .then(response => response.json())
   .then(data => {
       const geojson = {

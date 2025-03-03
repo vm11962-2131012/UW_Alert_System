@@ -69,66 +69,7 @@
         </div>
         <div class='map-overlay' id='legend'></div>
 
-
-        <script> // start of javascript (meha)
-
-            // initialize mapbox map
-            mapboxgl.accessToken = 'pk.eyJ1Ijoidm0xMTk2MiIsImEiOiJjbTFqbDh4OHcwcGQ2MmxvZHR2OXUyam10In0.TLBFscEgQpdhpSFtM62UHw';
-            let map = new mapboxgl.Map({
-                container: 'map', // container ID
-                style: 'mapbox://styles/mapbox/light-v11', // style URL
-                zoom: 14, // starting zoom
-                center: [-122.30669, 47.65529] // starting center
-            });
-
-            // adding uw campus boundary
-            map.on('load', function () {
-                map.addSource('uw-campus', {
-                    type: 'geojson',
-                    data: 'assets/uw_osm.geojson'
-                });
-
-                map.addLayer({
-                    id: 'uw-campus-layer',
-                    type: 'fill',
-                    source: 'uw-campus',
-                    paint: {
-                        'fill-color': '#FFD700', // yellow boundary (will replace with husky gold)
-                        'fill-opacity': 0.3
-                    }
-                });
-            });
-
-
-            // adding spd crime data
-            map.on('load', function () {
-                map.addSource('places', {
-                    type: 'geojson',
-                    data: 'spd_crime_df.geojson'
-                });
-
-                map.addLayer({
-                    id: 'places-layer',
-                    type: 'circle',
-                    source: 'places',
-                    paint: {
-                        'circle-radius': 6,
-                        'circle-color': [
-                            'match',
-                            ['get', 'Offense Parent Group'],
-                            'MOTOR VEHICLE THEFT', '#FF5733',
-                            'LARCENY-THEFT', '#33A8FF',
-                            'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', '#33FF57',
-                            'FRAUD OFFENSES', '#FF33A8',
-                            '#808080' // default color
-                        ],
-                    }
-                });
-            });
-
-
-
-        </script>
+        <script src="index.js"></script>
 
     </body>
 </html>

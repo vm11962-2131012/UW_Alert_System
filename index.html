@@ -1,107 +1,134 @@
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <title>U District Crime/Incident Alerts</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
-    <style>
-        h2, h3 {
-            margin: 10px;
-            font-size: 18px;
-        }
+    <head>
+        <meta charset="utf-8">
+        <title>U District Crime/Incident Alerts</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
+        <style>
+            h2, h3 {
+                margin: 10px;
+                font-size: 18px;
+            }
 
-        h3 {
-            font-size: 16px;
-        }
+            h3 {
+                font-size: 16px;
+            }
 
-        p {
-            margin: 10px;
-        }
+            p {
+                margin: 10px;
+            }
 
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-        }
+            #map {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+            }
 
-        .map-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            background: rgba(255, 255, 255, 0.8);
-            border-style: solid;
-            border-width: 1px;
-            border-color: rgba(0, 0, 0, 0.2);
-            margin-left: 20px;
-            font-family: Arial, sans-serif;
-            overflow: auto;
-            border-radius: 3px;
-        }
+            .map-overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background: rgba(255, 255, 255, 0.8);
+                border-style: solid;
+                border-width: 1px;
+                border-color: rgba(0, 0, 0, 0.2);
+                margin-left: 20px;
+                font-family: Arial, sans-serif;
+                overflow: auto;
+                border-radius: 3px;
+            }
 
-        #features {
-            top: 0;
-            height: 130px;
-            margin-top: 20px;
-            width: 350px;
-        }
+            #features {
+                top: 0;
+                height: 130px;
+                margin-top: 20px;
+                width: 350px;
+            }
 
-      
-        .mapboxgl-canvas-container.mapboxgl-interactive,
-        .mapboxgl-ctrl-group button.mapboxgl-ctrl-compass {
-            cursor: unset;
-        }
 
-    </style>
-</head> 
+            .mapboxgl-canvas-container.mapboxgl-interactive,
+            .mapboxgl-ctrl-group button.mapboxgl-ctrl-compass {
+                cursor: unset;
+            }
 
-<body>
-    <div id="map"></div>
-    <div class='map-overlay' id='features'>
-        <h2>U District Crime/Incident Alerts</h2>
-        <div id='text-description'>
-            <p>Hover over an incident!</p>
+        </style>
+    </head>
+
+    <body>
+        <div id="map"></div>
+        <div class='map-overlay' id='features'>
+            <h2>U District Crime/Incident Alerts</h2>
+            <div id='text-description'>
+                <p>Hover over an incident!</p>
+            </div>
         </div>
-    </div>
-    <div class='map-overlay' id='legend'></div>
-    <script>
-        mapboxgl.accessToken = 'pk.eyJ1Ijoidm0xMTk2MiIsImEiOiJjbTFqbDh4OHcwcGQ2MmxvZHR2OXUyam10In0.TLBFscEgQpdhpSFtM62UHw';
-        let map = new mapboxgl.Map({
-            container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/light-v11', // style URL
-            zoom: 14, // starting zoom
-            center: [-122.30669, 47.65529] // starting center
-        });
+        <div class='map-overlay' id='legend'></div>
 
-        map.on('load', function () {
-            map.addSource('places', {
-                type: 'geojson',
-                data: 'spd_crime_df.geojson' 
+
+        <script> // start of javascript (meha)
+
+            // initialize mapbox map
+            mapboxgl.accessToken = 'pk.eyJ1Ijoidm0xMTk2MiIsImEiOiJjbTFqbDh4OHcwcGQ2MmxvZHR2OXUyam10In0.TLBFscEgQpdhpSFtM62UHw';
+            let map = new mapboxgl.Map({
+                container: 'map', // container ID
+                style: 'mapbox://styles/mapbox/light-v11', // style URL
+                zoom: 14, // starting zoom
+                center: [-122.30669, 47.65529] // starting center
             });
 
-            map.addLayer({
-                id: 'places-layer',
-                type: 'circle',
-                source: 'places',
-                paint: {
-                    'circle-radius': 6,
-                    'circle-color': [
-                        'match',
-                        ['get', 'Offense Parent Group'],
-                        'MOTOR VEHICLE THEFT', '#FF5733',
-                        'LARCENY-THEFT', '#33A8FF',
-                        'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', '#33FF57',
-                        'FRAUD OFFENSES', '#FF33A8',
-                        '#808080' // default color
-                    ],
-                }
-            });
-        });
-    </script>
+            // adding uw campus boundary
+            map.on('load', function () {
+                map.addSource('uw-campus', {
+                    type: 'geojson',
+                    data: 'assets/uw_osm.geojson'
+                });
 
-</body>
+                map.addLayer({
+                    id: 'uw-campus-layer',
+                    type: 'fill',
+                    source: 'uw-campus',
+                    paint: {
+                        'fill-color': '#FFD700', // yellow boundary (will replace with husky gold)
+                        'fill-opacity': 0.3
+                    }
+                });
+            });
+
+
+            // adding spd crime data
+            map.on('load', function () {
+                map.addSource('places', {
+                    type: 'geojson',
+                    data: 'spd_crime_df.geojson'
+                });
+
+                map.addLayer({
+                    id: 'places-layer',
+                    type: 'circle',
+                    source: 'places',
+                    paint: {
+                        'circle-radius': 6,
+                        'circle-color': [
+                            'match',
+                            ['get', 'Offense Parent Group'],
+                            'MOTOR VEHICLE THEFT', '#FF5733',
+                            'LARCENY-THEFT', '#33A8FF',
+                            'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', '#33FF57',
+                            'FRAUD OFFENSES', '#FF33A8',
+                            '#808080' // default color
+                        ],
+                    }
+                });
+            });
+
+
+
+        </script>
+
+    </body>
 </html>

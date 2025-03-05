@@ -4,7 +4,7 @@ const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v11', // style URL
     zoom: 14, // starting zoom
-    center: [-122.30669, 47.65529] // starting center
+    center: [-122.30669, 47.658] // starting center
 });
 
 async function geojsonFetch() {
@@ -85,6 +85,7 @@ async function geojsonFetch() {
         }
     });
 
+<<<<<<< HEAD:index.js
       // pop-up layers
       map.on('click', 'places-layer', (e) => {
         if (e.features.length > 0) {
@@ -108,15 +109,40 @@ async function geojsonFetch() {
             .addTo(map);
         }
       });
+=======
+    // pop-up layers
+    map.on('click', 'places-layer', (e) => {
+      if (e.features.length > 0) {
+        const feature = e.features[0];
+        const coordinates = feature.geometry.coordinates.slice();
+          
+        // spd pop-up content properties
+        const popupContent = `
+          <div style="max-width: 300px;">
+            <h3>Crime Information</h3>
+            <strong>Offense:</strong> ${feature.properties['Offense Parent Group'] || 'N/A'}<br>
+            <strong>Specific Offense:</strong> ${feature.properties['Offense'] || 'N/A'}<br>
+            <strong>Date:</strong> ${feature.properties['Occurred Date'] || 'N/A'}<br>
+            <strong>Area:</strong> ${feature.properties['MCPP'] || 'N/A'}
+          </div>
+        `;
 
-      // cursor change on hover for crime data
-      map.on('mouseenter', 'places-layer', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
+        new mapboxgl.Popup({ offset: [0, -7] })
+          .setLngLat(coordinates)
+          .setHTML(popupContent)
+          .addTo(map);
+      }
+    });
+>>>>>>> ec388812ba5552d0a5a4606543a8ccfe5f6ff8c8:js/main.js
 
-      map.on('mouseleave', 'places-layer', () => {
-        map.getCanvas().style.cursor = '';
-      });
+    // cursor change on hover for crime data
+    map.on('mouseenter', 'places-layer', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'places-layer', () => {
+      map.getCanvas().style.cursor = '';
+    });
 
     // filter to only show points within UW boundary
     map.setFilter('places-layer', ['within', uwBoundary]);
@@ -144,39 +170,40 @@ async function fetch911Data() {
   let response = await fetch(apiURL);
   let geojson = await response.json();
 
-      // Filter out features with null geometry and reconstruct missing ones
-      geojson.features = geojson.features
-          .filter(feature => feature.properties.dispatch_longitude && feature.properties.dispatch_latitude)
-          .map(feature => ({
-              ...feature,
-              geometry: {
-                  type: "Point",
-                  coordinates: [
-                      parseFloat(feature.properties.dispatch_longitude),
-                      parseFloat(feature.properties.dispatch_latitude)
-                  ]
-              }
-          }));
+  // Filter out features with null geometry and reconstruct missing ones
+  geojson.features = geojson.features
+  .filter(feature => feature.properties.dispatch_longitude && feature.properties.dispatch_latitude)
+  .map(feature => ({
+    ...feature,
+    geometry: {
+      type: "Point",
+      coordinates: [
+        parseFloat(feature.properties.dispatch_longitude),
+        parseFloat(feature.properties.dispatch_latitude)
+      ]
+    }
+  }));
 
 
-      // If source already exists, update it
-      if (map.getSource('911-data')) {
-          map.getSource('911-data').setData(geojson);
-      } else {
-          map.addSource('911-data', { type: 'geojson', data: geojson });
+  // If source already exists, update it
+  if (map.getSource('911-data')) {
+    map.getSource('911-data').setData(geojson);
+  } else {
+    map.addSource('911-data', { type: 'geojson', data: geojson });
 
-          map.addLayer({
-              id: '911-points',
-              type: 'circle',
-              source: '911-data',
-              paint: {
-                  'circle-radius': 3,
-                  'circle-color': '#FF0000',
-                  'circle-opacity': 0.8
-              }
-          });
+    map.addLayer({
+      id: '911-points',
+      type: 'circle',
+      source: '911-data',
+      paint: {
+        'circle-radius': 3,
+        'circle-color': '#FF0000',
+        'circle-opacity': 0.8
       }
+    });
+  }
 
+<<<<<<< HEAD:index.js
       // similar function for 911 data
       map.on('click', '911-points', (e) => {
         if (e.features.length > 0) {
@@ -204,11 +231,40 @@ async function fetch911Data() {
     // cursor change on hover for 911 data
     map.on('mouseenter', '911-points', () => {
       map.getCanvas().style.cursor = 'pointer';
+=======
+  // similar function for 911 data
+  map.on('click', '911-points', (e) => {
+    if (e.features.length > 0) {
+      const feature = e.features[0];
+      const coordinates = feature.geometry.coordinates.slice();
+          
+      // 911 popup content properties
+      const popupContent = `
+          <div style="max-width: 300px;">
+            <h3>Emergency Call Details</h3>
+            <strong>Incident Type:</strong> ${feature.properties.event_clearance_group || 'N/A'}<br>
+            <strong>Description:</strong> ${feature.properties.event_clearance_description || 'N/A'}<br>
+            <strong>Initial Receipt Time:</strong> ${feature.properties.initial_call_timestamp || 'N/A'}<br>
+            <strong>Area:</strong> ${feature.properties.block_address || 'N/A'}
+          </div>
+        `;
+
+      new mapboxgl.Popup({ offset: [0, -7] })
+        .setLngLat(coordinates)
+        .setHTML(popupContent)
+        .addTo(map);
+      }
+>>>>>>> ec388812ba5552d0a5a4606543a8ccfe5f6ff8c8:js/main.js
     });
 
-    map.on('mouseleave', '911-points', () => {
-      map.getCanvas().style.cursor = '';
-    });
+  // cursor change on hover for 911 data
+  map.on('mouseenter', '911-points', () => {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+  map.on('mouseleave', '911-points', () => {
+    map.getCanvas().style.cursor = '';
+  });
 
 }
 
@@ -255,3 +311,25 @@ document.getElementById('toggle-spd').addEventListener('click', function () {
 
 
 geojsonFetch();
+
+
+// Add Sidebar Info Panel Open and Close Functions
+function openNav() {
+  // slides sidebar in
+  document.getElementById("sidebar").style.width = "500px";
+  // pushes main content, map, and features to the right
+  document.getElementById("main").style.marginLeft = "500px";
+  document.getElementById("features").style.marginLeft = "500px";
+  document.getElementById("map").style.marginLeft = "250px";
+  document.getElementById("toggleButton").style.display = "none";
+}
+
+function closeNav() {
+  // pushes sidebar out
+  document.getElementById("sidebar").style.width = "0";
+  // resets position of main content, map, and features
+  document.getElementById("main").style.marginLeft = "0";
+  document.getElementById("features").style.marginLeft = "0px";
+  document.getElementById("map").style.marginLeft = "0px";
+  document.getElementById("toggleButton").style.display = "block";
+}

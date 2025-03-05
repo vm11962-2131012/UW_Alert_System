@@ -107,7 +107,3 @@ text-shadow: 0 0 2px #b7a37d, 0 0 5px #b7a37d, 0 0 10px #b7a37d, 0 0 15px #b7a37
 #main, #features, #map {
 transition: margin-left .5s;
 }
-
-.sidebar-open #main {
-margin-left: 500px; /* Shift the main content */
-}

@@ -90,7 +90,7 @@ async function geojsonFetch() {
         if (e.features.length > 0) {
           const feature = e.features[0];
           const coordinates = feature.geometry.coordinates.slice();
-          
+
           // spd pop-up content properties
           const popupContent = `
             <div style="max-width: 300px;">
@@ -182,7 +182,7 @@ async function fetch911Data() {
         if (e.features.length > 0) {
           const feature = e.features[0];
           const coordinates = feature.geometry.coordinates.slice();
-          
+
           // 911 popup content properties
           const popupContent = `
             <div style="max-width: 300px;">
@@ -213,6 +213,9 @@ async function fetch911Data() {
 }
 
 // Fetch and display Isochrone Navigation layer
+
+// rest of code for isochrone goes below, follow tutorial step by step
+// change nav colors to purple
 async function loadIsochroneLayer() {
   const profile = 'walking';
   const minutes = 10;

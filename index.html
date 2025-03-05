@@ -1,79 +1,46 @@
+<!DOCTYPE html>
 <html>
-
     <head>
         <meta charset="utf-8">
         <title>U District Crime/Incident Alerts</title>
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+        <link rel="icon" type="image/x-icon" href="/assets/img/UW_Alert_Favicon.ico">
         <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
-        <style>
-            h2, h3 {
-                margin: 10px;
-                font-size: 18px;
-            }
-
-            h3 {
-                font-size: 16px;
-            }
-
-            p {
-                margin: 10px;
-            }
-
-            #map {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                width: 100%;
-            }
-
-            .map-overlay {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                background: rgba(255, 255, 255, 0.8);
-                border-style: solid;
-                border-width: 1px;
-                border-color: rgba(0, 0, 0, 0.2);
-                margin-left: 20px;
-                font-family: Arial, sans-serif;
-                overflow: auto;
-                border-radius: 3px;
-            }
-
-            #features {
-                top: 0;
-                height: 130px;
-                margin-top: 20px;
-                width: 350px;
-            }
-
-
-            .mapboxgl-canvas-container.mapboxgl-interactive,
-            .mapboxgl-ctrl-group button.mapboxgl-ctrl-compass {
-                cursor: unset;
-            }
-
-        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/main.css">
     </head>
 
     <body>
         <div id="map"></div>
-        <div class='map-overlay' id='features'>
-            <h2>U District Crime/Incident Alerts</h2>
-            <div id='text-description'>
-                <p>Hover over an incident!</p>
+        <div id="main">
+            <button id="toggleButton" class="openbtn" onclick="openNav()"><i class="fa fa-bars"></i></button>
+            <div class='map-overlay' id='features'>
+                <h2>U District Crime/Incident Alerts</h2>
+                <div id='text-description'>
+                    <p>Hover over an incident!</p>
+                </div>
+                <button id="toggle-isochrone">Toggle Isochrone</button>
+                <button id="toggle-911">Toggle 911 Calls</button>
+                <button id="toggle-spd">Toggle SPD Crimes</button>
             </div>
-            <button id="toggle-isochrone">Toggle Isochrone</button>
-            <button id="toggle-911">Toggle 911 Calls</button>
-            <button id="toggle-spd">Toggle SPD Crimes</button>
-
         </div>
+        
         <div class='map-overlay' id='legend'></div>
 
-        <script src="index.js"></script>
+        <div id="sidebar" class="sidebar">
+            <button class="closebtn" onclick="closeNav()"><i class="fa fa-remove"></i></button>
+            <h1>Welcome to the UW Alert System</h1>
+            <h2>About the Map</h2>
+            <p>This interactive map is designed to help students and faculty, residents, and visitors stay informed about crime incidents in the University District. Using real-time data from the Seattle Open Data Portal, this map provides recent police and crime reports, citizen-reported incidents, and EMS calls.</p> <br>
+            <h3>Key Features</h3>
+            <p>Live Crime Updates <br>
+                Rerouting for Safe Navigation <br>
+                Past Crime Data <br>
+                Interactive Crime Alerts</p>
+        </div>
+
+        <script src="js/main.js"></script>
 
     </body>
 </html>

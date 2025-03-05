@@ -14,7 +14,7 @@ async function geojsonFetch() {
   let uwBoundary = await boundaryResponse.json();
 
   // fetch spd crime data
-  let response = await fetch('assets/spd_crime_df.geojson');
+  let response = await fetch('assets/clean_spd_crime_df.geojson');
   let places = await response.json();
 
   // fetch OSM campus data
@@ -85,7 +85,6 @@ async function geojsonFetch() {
         }
     });
 
-<<<<<<< HEAD:index.js
       // pop-up layers
       map.on('click', 'places-layer', (e) => {
         if (e.features.length > 0) {
@@ -109,31 +108,6 @@ async function geojsonFetch() {
             .addTo(map);
         }
       });
-=======
-    // pop-up layers
-    map.on('click', 'places-layer', (e) => {
-      if (e.features.length > 0) {
-        const feature = e.features[0];
-        const coordinates = feature.geometry.coordinates.slice();
-          
-        // spd pop-up content properties
-        const popupContent = `
-          <div style="max-width: 300px;">
-            <h3>Crime Information</h3>
-            <strong>Offense:</strong> ${feature.properties['Offense Parent Group'] || 'N/A'}<br>
-            <strong>Specific Offense:</strong> ${feature.properties['Offense'] || 'N/A'}<br>
-            <strong>Date:</strong> ${feature.properties['Occurred Date'] || 'N/A'}<br>
-            <strong>Area:</strong> ${feature.properties['MCPP'] || 'N/A'}
-          </div>
-        `;
-
-        new mapboxgl.Popup({ offset: [0, -7] })
-          .setLngLat(coordinates)
-          .setHTML(popupContent)
-          .addTo(map);
-      }
-    });
->>>>>>> ec388812ba5552d0a5a4606543a8ccfe5f6ff8c8:js/main.js
 
     // cursor change on hover for crime data
     map.on('mouseenter', 'places-layer', () => {
@@ -164,7 +138,11 @@ const APP_TOKEN = "j8xvpt9TilXEfJd9DzbQI7Xyg";
 async function fetch911Data() {
   console.log("Fetching latest 911 data...");
 
-  const apiURL = `https://data.seattle.gov/resource/33kz-ixgy.geojson?$$app_token=${APP_TOKEN}`;
+  const apiURL = `https://data.seattle.gov/resource/33kz-ixgy.geojson?$query=
+                  SELECT *
+                  ORDER BY cad_event_original_time_queued DESC
+                  LIMIT 1000
+                  &$$app_token=${APP_TOKEN}`
 
 
   let response = await fetch(apiURL);
@@ -203,7 +181,6 @@ async function fetch911Data() {
     });
   }
 
-<<<<<<< HEAD:index.js
       // similar function for 911 data
       map.on('click', '911-points', (e) => {
         if (e.features.length > 0) {
@@ -214,10 +191,10 @@ async function fetch911Data() {
           const popupContent = `
             <div style="max-width: 300px;">
               <h3>Emergency Call Details</h3>
-              <strong>Incident Type:</strong> ${feature.properties.event_clearance_group || 'N/A'}<br>
-              <strong>Description:</strong> ${feature.properties.event_clearance_description || 'N/A'}<br>
-              <strong>Initial Receipt Time:</strong> ${feature.properties.initial_call_timestamp || 'N/A'}<br>
-              <strong>Area:</strong> ${feature.properties.block_address || 'N/A'}
+              <strong>Incident Type:</strong> ${feature.properties.final_call_type || 'N/A'}<br>
+              <strong>Description:</strong> ${feature.properties.cad_event_clearance_description || 'N/A'}<br>
+              <strong>Initial Receipt Time:</strong> ${feature.properties.cad_event_original_time_queued || 'N/A'}<br>
+              <strong>Neighborhood:</strong> ${feature.properties.dispatch_neighborhood || 'N/A'}
             </div>
           `;
 
@@ -231,30 +208,6 @@ async function fetch911Data() {
     // cursor change on hover for 911 data
     map.on('mouseenter', '911-points', () => {
       map.getCanvas().style.cursor = 'pointer';
-=======
-  // similar function for 911 data
-  map.on('click', '911-points', (e) => {
-    if (e.features.length > 0) {
-      const feature = e.features[0];
-      const coordinates = feature.geometry.coordinates.slice();
-          
-      // 911 popup content properties
-      const popupContent = `
-          <div style="max-width: 300px;">
-            <h3>Emergency Call Details</h3>
-            <strong>Incident Type:</strong> ${feature.properties.event_clearance_group || 'N/A'}<br>
-            <strong>Description:</strong> ${feature.properties.event_clearance_description || 'N/A'}<br>
-            <strong>Initial Receipt Time:</strong> ${feature.properties.initial_call_timestamp || 'N/A'}<br>
-            <strong>Area:</strong> ${feature.properties.block_address || 'N/A'}
-          </div>
-        `;
-
-      new mapboxgl.Popup({ offset: [0, -7] })
-        .setLngLat(coordinates)
-        .setHTML(popupContent)
-        .addTo(map);
-      }
->>>>>>> ec388812ba5552d0a5a4606543a8ccfe5f6ff8c8:js/main.js
     });
 
   // cursor change on hover for 911 data

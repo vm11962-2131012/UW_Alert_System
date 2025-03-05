@@ -85,8 +85,6 @@ async function geojsonFetch() {
         }
     });
 
-    // hover/click for spd data here
-
     // filter to only show points within UW boundary
     map.setFilter('places-layer', ['within', uwBoundary]);
 
@@ -147,6 +145,71 @@ async function fetch911Data() {
       }
 
       // hover/click for 911 data here
+      // pop-up layers
+    map.on('click', 'places-layer', (e) => {
+      if (e.features.length > 0) {
+        const feature = e.features[0];
+        const coordinates = feature.geometry.coordinates.slice();
+        
+        // spd pop-up content properties
+        const popupContent = `
+          <div style="max-width: 300px;">
+            <h3>Crime Information</h3>
+            <strong>Offense:</strong> ${feature.properties['Offense Parent Group'] || 'N/A'}<br>
+            <strong>Specific Offense:</strong> ${feature.properties['Offense'] || 'N/A'}<br>
+            <strong>Date:</strong> ${feature.properties['Occurred Date'] || 'N/A'}<br>
+            <strong>Area:</strong> ${feature.properties['MCPP'] || 'N/A'}
+          </div>
+        `;
+
+        new mapboxgl.Popup({ offset: [0, -7] })
+          .setLngLat(coordinates)
+          .setHTML(popupContent)
+          .addTo(map);
+      }
+    });
+
+    // cursor change on hover for crime data
+    map.on('mouseenter', 'places-layer', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'places-layer', () => {
+      map.getCanvas().style.cursor = '';
+    });
+
+    // similar function for 911 data
+    map.on('click', '911-points', (e) => {
+      if (e.features.length > 0) {
+        const feature = e.features[0];
+        const coordinates = feature.geometry.coordinates.slice();
+        
+        // 911 popup content properties
+        const popupContent = `
+          <div style="max-width: 300px;">
+            <h3>Emergency Call Details</h3>
+            <strong>Incident Type:</strong> ${feature.properties.event_clearance_group || 'N/A'}<br>
+            <strong>Description:</strong> ${feature.properties.event_clearance_description || 'N/A'}<br>
+            <strong>Initial Receipt Time:</strong> ${feature.properties.initial_call_timestamp || 'N/A'}<br>
+            <strong>Area:</strong> ${feature.properties.block_address || 'N/A'}
+          </div>
+        `;
+
+        new mapboxgl.Popup({ offset: [0, -7] })
+          .setLngLat(coordinates)
+          .setHTML(popupContent)
+          .addTo(map);
+      }
+    });
+
+    // cursor change on hover for 911 data
+    map.on('mouseenter', '911-points', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', '911-points', () => {
+      map.getCanvas().style.cursor = '';
+    });
 
 }
 

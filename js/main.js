@@ -157,7 +157,11 @@ const APP_TOKEN = "j8xvpt9TilXEfJd9DzbQI7Xyg";
 async function fetch911Data() {
   console.log("Fetching latest 911 data...");
 
-  const apiURL = `https://data.seattle.gov/resource/33kz-ixgy.geojson?$$app_token=${APP_TOKEN}`;
+  const apiURL = `https://data.seattle.gov/resource/33kz-ixgy.geojson?$query=
+                  SELECT *
+                  ORDER BY cad_event_original_time_queued DESC
+                  LIMIT 1000
+                  &$$app_token=${APP_TOKEN}`
 
 
   let response = await fetch(apiURL);

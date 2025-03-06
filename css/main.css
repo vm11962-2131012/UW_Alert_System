@@ -121,7 +121,7 @@ transition: margin-left .5s;
     max-height: 300px;
     overflow-y: auto;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    font-family: Arial, Garagamon, sans-serif;
+    font-family: Arial, sans-serif;
     max-width: 250px;
     z-index: 1000;
     transition: all 0.3s ease;

@@ -14,7 +14,7 @@ async function geojsonFetch() {
   let uwBoundary = await boundaryResponse.json();
 
   // fetch spd crime data
-  let response = await fetch('assets/spd_crime_df.geojson');
+  let response = await fetch('assets/clean_spd_crime_df.geojson');
   let places = await response.json();
 
   // fetch OSM campus data
@@ -76,30 +76,48 @@ async function geojsonFetch() {
               'circle-color': [
                   'match',
                   ['get', 'Offense Parent Group'],
-                  'MOTOR VEHICLE THEFT', '#FF5733',
-                  'LARCENY-THEFT', '#33A8FF',
-                  'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', '#33FF57',
-                  'FRAUD OFFENSES', '#FF33A8',
-                  '#808080' // default
+                  'MOTOR VEHICLE THEFT', 'rgb(42, 0, 76)',
+                  'LARCENY-THEFT', 'rgb(69, 9, 132)',
+                  'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', 'rgb(106, 55, 145)',
+                  'FRAUD OFFENSES','rgb(134, 103, 154)',
+                  'rgb(187, 150, 246)' // default color
                 ],
         }
     });
 
-<<<<<<< HEAD:index.js
+    initLegend();
+    createSPDLegend();
+    document.getElementById('legend').style.display = 'block'; // Display the legend
+
       // pop-up layers
       map.on('click', 'places-layer', (e) => {
         if (e.features.length > 0) {
           const feature = e.features[0];
           const coordinates = feature.geometry.coordinates.slice();
 
+          let dateTimeStr = feature.properties['Report DateTime'] || 'N/A';
+
           // spd pop-up content properties
           const popupContent = `
-            <div style="max-width: 300px;">
-              <h3>Crime Information</h3>
-              <strong>Offense:</strong> ${feature.properties['Offense Parent Group'] || 'N/A'}<br>
-              <strong>Specific Offense:</strong> ${feature.properties['Offense'] || 'N/A'}<br>
-              <strong>Date:</strong> ${feature.properties['Occurred Date'] || 'N/A'}<br>
-              <strong>Area:</strong> ${feature.properties['MCPP'] || 'N/A'}
+              <h3 style="margin-bottom: 10px; color: #333;">Crime Report Details</h3>
+              <table style="width: 100%; border-collapse: separate; border-spacing: 0 5px;">
+                <tr>
+                  <td><strong>Date/Time:</strong></td>
+                  <td>${feature.properties['Report DateTime'] || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td><strong>Offense Group:</strong></td>
+                  <td>${feature.properties['Offense Parent Group'] || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td><strong>Specific Offense:</strong></td>
+                  <td>${feature.properties['Offense'] || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td><strong>Neighborhood:</strong></td>
+                  <td>${feature.properties['MCPP'] || 'N/A'}</td>
+                </tr>
+              </table>
             </div>
           `;
 
@@ -109,31 +127,6 @@ async function geojsonFetch() {
             .addTo(map);
         }
       });
-=======
-    // pop-up layers
-    map.on('click', 'places-layer', (e) => {
-      if (e.features.length > 0) {
-        const feature = e.features[0];
-        const coordinates = feature.geometry.coordinates.slice();
-          
-        // spd pop-up content properties
-        const popupContent = `
-          <div style="max-width: 300px;">
-            <h3>Crime Information</h3>
-            <strong>Offense:</strong> ${feature.properties['Offense Parent Group'] || 'N/A'}<br>
-            <strong>Specific Offense:</strong> ${feature.properties['Offense'] || 'N/A'}<br>
-            <strong>Date:</strong> ${feature.properties['Occurred Date'] || 'N/A'}<br>
-            <strong>Area:</strong> ${feature.properties['MCPP'] || 'N/A'}
-          </div>
-        `;
-
-        new mapboxgl.Popup({ offset: [0, -7] })
-          .setLngLat(coordinates)
-          .setHTML(popupContent)
-          .addTo(map);
-      }
-    });
->>>>>>> ec388812ba5552d0a5a4606543a8ccfe5f6ff8c8:js/main.js
 
     // cursor change on hover for crime data
     map.on('mouseenter', 'places-layer', () => {
@@ -201,9 +194,10 @@ async function fetch911Data() {
         'circle-opacity': 0.8
       }
     });
+    
+    create911Legend();
   }
 
-<<<<<<< HEAD:index.js
       // similar function for 911 data
       map.on('click', '911-points', (e) => {
         if (e.features.length > 0) {
@@ -212,12 +206,21 @@ async function fetch911Data() {
 
           // 911 popup content properties
           const popupContent = `
-            <div style="max-width: 300px;">
-              <h3>Emergency Call Details</h3>
-              <strong>Incident Type:</strong> ${feature.properties.event_clearance_group || 'N/A'}<br>
-              <strong>Description:</strong> ${feature.properties.event_clearance_description || 'N/A'}<br>
-              <strong>Initial Receipt Time:</strong> ${feature.properties.initial_call_timestamp || 'N/A'}<br>
-              <strong>Area:</strong> ${feature.properties.block_address || 'N/A'}
+              <h3 style="margin-bottom: 10px; color: #333;">911 Report Details</h3>
+              <table style="width: 100%; border-collapse: separate; border-spacing: 0 5px;">
+                <tr>
+                  <td><strong>Date/Time:</strong></td>
+                  <td>${feature.properties['cad_event_original_time_queued'] || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td><strong>Call Type:</strong></td>
+                  <td>${feature.properties['call_type'] || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td><strong>Dispatch Neighborhood:</strong></td>
+                  <td>${feature.properties['dispatch_neighborhood'] || 'N/A'}</td>
+                </tr>
+              </table>
             </div>
           `;
 
@@ -228,45 +231,64 @@ async function fetch911Data() {
         }
       });
 
-    // cursor change on hover for 911 data
-    map.on('mouseenter', '911-points', () => {
-      map.getCanvas().style.cursor = 'pointer';
-=======
-  // similar function for 911 data
-  map.on('click', '911-points', (e) => {
-    if (e.features.length > 0) {
-      const feature = e.features[0];
-      const coordinates = feature.geometry.coordinates.slice();
-          
-      // 911 popup content properties
-      const popupContent = `
-          <div style="max-width: 300px;">
-            <h3>Emergency Call Details</h3>
-            <strong>Incident Type:</strong> ${feature.properties.event_clearance_group || 'N/A'}<br>
-            <strong>Description:</strong> ${feature.properties.event_clearance_description || 'N/A'}<br>
-            <strong>Initial Receipt Time:</strong> ${feature.properties.initial_call_timestamp || 'N/A'}<br>
-            <strong>Area:</strong> ${feature.properties.block_address || 'N/A'}
-          </div>
-        `;
+      // cursor change on hover for 911 data
+      map.on('mouseenter', '911-points', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
 
-      new mapboxgl.Popup({ offset: [0, -7] })
-        .setLngLat(coordinates)
-        .setHTML(popupContent)
-        .addTo(map);
-      }
->>>>>>> ec388812ba5552d0a5a4606543a8ccfe5f6ff8c8:js/main.js
-    });
+      // cursor change on hover for 911 data
+      map.on('mouseenter', '911-points', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
 
-  // cursor change on hover for 911 data
-  map.on('mouseenter', '911-points', () => {
-    map.getCanvas().style.cursor = 'pointer';
-  });
-
-  map.on('mouseleave', '911-points', () => {
-    map.getCanvas().style.cursor = '';
-  });
+      map.on('mouseleave', '911-points', () => {
+        map.getCanvas().style.cursor = '';
+      });
 
 }
+
+// initialize the single legend container
+function initLegend() {
+  const legend = document.getElementById('legend');
+  legend.innerHTML = '<div class="legend-title">Map Legend</div>';
+  legend.style.display = 'block'; 
+}
+
+// function to create SPD crime legend
+function createSPDLegend() {
+  const legend = document.getElementById('legend');
+  
+  // create SPD crime legend content
+  const spdLegendContent = `
+    <div class="legend-section">
+      <h3>SPD Crime Data</h3>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(42, 0, 76);"></span><span>Motor Vehicle Theft</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(69, 9, 132);"></span><span>Larceny-Theft</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(106, 55, 145);"></span><span>Destruction/Damage/Vandalism</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(134, 103, 154);"></span><span>Fraud Offenses</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(187, 150, 246);"></span><span>Other</span></div>
+    </div>
+  `;
+  
+  legend.innerHTML += spdLegendContent;
+}
+
+// function to create 911 calls legend
+function create911Legend() {
+  const legend = document.getElementById('legend');
+  
+  // create 911 calls legend content
+  const calls911LegendContent = `
+    <div class="legend-section">
+      <h3>Live 911 Calls</h3>
+      <div class="legend-item"><span class="legend-key" style="background-color: #FF0000;"></span><span>Emergency Calls</span></div>
+    </div>
+  `;
+  
+  // append the content to the legend
+  legend.innerHTML += calls911LegendContent;
+}
+
 
 // Fetch and display Isochrone Navigation layer
 

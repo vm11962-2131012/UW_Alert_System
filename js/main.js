@@ -198,7 +198,7 @@ async function fetch911Data() {
         'circle-opacity': 0.8
       }
     });
-    
+
     create911Legend();
   }
 
@@ -255,13 +255,13 @@ async function fetch911Data() {
 function initLegend() {
   const legend = document.getElementById('legend');
   legend.innerHTML = '<div class="legend-title">Map Legend</div>';
-  legend.style.display = 'block'; 
+  legend.style.display = 'block';
 }
 
 // function to create SPD crime legend
 function createSPDLegend() {
   const legend = document.getElementById('legend');
-  
+
   // create SPD crime legend content
   const spdLegendContent = `
     <div class="legend-section">
@@ -273,14 +273,14 @@ function createSPDLegend() {
       <div class="legend-item"><span class="legend-key" style="background-color:rgb(187, 150, 246);"></span><span>Other</span></div>
     </div>
   `;
-  
+
   legend.innerHTML += spdLegendContent;
 }
 
 // function to create 911 calls legend
 function create911Legend() {
   const legend = document.getElementById('legend');
-  
+
   // create 911 calls legend content
   const calls911LegendContent = `
     <div class="legend-section">
@@ -288,35 +288,9 @@ function create911Legend() {
       <div class="legend-item"><span class="legend-key" style="background-color: #FF0000;"></span><span>Emergency Calls</span></div>
     </div>
   `;
-  
+
   // append the content to the legend
   legend.innerHTML += calls911LegendContent;
-}
-
-
-// Fetch and display Isochrone Navigation layer
-
-// rest of code for isochrone goes below, follow tutorial step by step
-// change nav colors to purple
-async function loadIsochroneLayer() {
-  const profile = 'walking';
-  const minutes = 10;
-  const isochroneURL = `https://api.mapbox.com/isochrone/v1/mapbox/${profile}/-122.30669,47.65529?contours_minutes=${minutes}&polygons=true&access_token=${mapboxgl.accessToken}`;
-
-  let response = await fetch(isochroneURL);
-  let isochroneData = await response.json();
-
-  map.addSource('isochrone', { type: 'geojson', data: isochroneData });
-  map.addLayer({
-      id: 'isochrone-layer',
-      type: 'fill',
-      source: 'isochrone',
-      layout: { visibility: 'none' },
-      paint: {
-          'fill-color': '#0099FF',
-          'fill-opacity': 0.3
-      }
-  });
 }
 
 // Toggle Visibility of Layers

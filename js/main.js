@@ -4,7 +4,7 @@ const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v11', // style URL
     zoom: 14, // starting zoom
-    center: [-122.30669, 47.658] // starting center
+    center: [-122.315, 47.658] // starting center
 });
 
 async function geojsonFetch() {
@@ -36,7 +36,7 @@ async function geojsonFetch() {
       'type': 'line',
       'source': 'uw-campus',
       'paint': {
-          'line-color': '#FFD700', // Husky Gold
+          'line-color': '#85754d', // Husky Gold
           'line-width': 3
       }
     });
@@ -53,8 +53,7 @@ async function geojsonFetch() {
       'type': 'fill',
       'source': 'osm-campus',
       'paint': {
-          'fill-color': '#FFD700',
-          'fill-opacity': 0.3
+          'fill-color': '#e8e3d3'
       }
     });
 
@@ -295,18 +294,21 @@ function create911Legend() {
 
 // Toggle Visibility of Layers
 document.getElementById('toggle-isochrone').addEventListener('click', function () {
-  let visibility = map.getLayoutProperty('isochrone-layer', 'visibility');
+  let visibility = map.getLayoutProperty('isochrone-layer', 'visibility') || 'visible';
   map.setLayoutProperty('isochrone-layer', 'visibility', visibility === 'visible' ? 'none' : 'visible');
+  toggleFilter(this, visibility);
 });
 
 document.getElementById('toggle-911').addEventListener('click', function () {
-  let visibility = map.getLayoutProperty('911-points', 'visibility');
+  let visibility = map.getLayoutProperty('911-points', 'visibility') || 'visible';
   map.setLayoutProperty('911-points', 'visibility', visibility === 'visible' ? 'none' : 'visible');
+  toggleFilter(this, visibility);
 });
 
 document.getElementById('toggle-spd').addEventListener('click', function () {
-  let visibility = map.getLayoutProperty('places-layer', 'visibility');
+  let visibility = map.getLayoutProperty('places-layer', 'visibility') || 'visible';
   map.setLayoutProperty('places-layer', 'visibility', visibility === 'visible' ? 'none' : 'visible');
+  toggleFilter(this, visibility);
 });
 
 
@@ -316,11 +318,11 @@ geojsonFetch();
 // Add Sidebar Info Panel Open and Close Functions
 function openNav() {
   // slides sidebar in
-  document.getElementById("sidebar").style.width = "500px";
+  document.getElementById("sidebar").style.width = "400px";
   // pushes main content, map, and features to the right
-  document.getElementById("main").style.marginLeft = "500px";
-  document.getElementById("features").style.marginLeft = "500px";
-  document.getElementById("map").style.marginLeft = "250px";
+  document.getElementById("main").style.marginLeft = "0px";
+  document.getElementById("map").style.marginLeft = "0px";
+  document.getElementById("legend").style.marginLeft = "0px";
   document.getElementById("toggleButton").style.display = "none";
 }
 
@@ -328,8 +330,19 @@ function closeNav() {
   // pushes sidebar out
   document.getElementById("sidebar").style.width = "0";
   // resets position of main content, map, and features
-  document.getElementById("main").style.marginLeft = "0";
-  document.getElementById("features").style.marginLeft = "0px";
-  document.getElementById("map").style.marginLeft = "0px";
+  document.getElementById("main").style.marginLeft = "-400px";
+  document.getElementById("map").style.marginLeft = "-250px";
+  document.getElementById("legend").style.marginLeft = "-400px";
   document.getElementById("toggleButton").style.display = "block";
+}
+
+function toggleFilter(button, visibility) {
+  const icon = button.querySelector('i');
+  if (visibility === 'visible') {
+    icon.classList.remove('fa-toggle-on');
+    icon.classList.add('fa-toggle-off');
+  } else {
+    icon.classList.remove('fa-toggle-off');
+    icon.classList.add('fa-toggle-on');
+  }
 }

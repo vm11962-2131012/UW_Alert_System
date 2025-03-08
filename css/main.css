@@ -1,3 +1,21 @@
+/* If we change just one place, it will be reflected throughout the site. */
+:root {
+    --uw-purple: #4b2e83;
+    --uw-gold: #b7a37d;
+    --uw-gold-light: #e8e3d3;
+    --white: #ffffff;
+    --black: #000000;
+    --light-background: rgba(255, 255, 255, 0.8);
+    --shadow: rgba(0, 0, 0, 0.15);
+    --danger: #ff0000;
+    --warning: #ffa500;
+    --caution: #ffff00;
+  }
+
+  body, h1, h2, h3, p, button {
+    font-family: Arial, sans-serif;
+  }
+
 html {
     overflow-x: hidden;
 }
@@ -54,14 +72,15 @@ p {
 
 
 .sidebar {
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     height: 100%;
     width: 400px;
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
-    background-color: #4b2e83;
+    /* left: 0;
+    background-color: #4b2e83; */
+    background-color: var(--uw-purple);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -123,7 +142,7 @@ p {
     max-height: 300px;
     overflow-y: auto;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     max-width: 250px;
     z-index: 1000;
     transition: margin-left .5s;

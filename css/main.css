@@ -199,11 +199,11 @@ p {
 
 #instructions {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 300px;
+  right: 10px;
+  top: 60px;
+  width: 25vw;
   height: 100%;
-  background: white;
+  background: #4b2e83;
   padding: 15px;
   overflow-y: auto;
   font-family: Arial, sans-serif;

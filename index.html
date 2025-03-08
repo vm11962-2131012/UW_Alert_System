@@ -21,6 +21,8 @@
 
         <div class='map-overlay' id='legend'></div>
 
+        <button id="navigateMe">Navigate Me</button>
+
         <div id="sidebar" class="sidebar">
             <button class="closebtn" onclick="closeNav()"><i class="fa fa-remove"></i></button>
             <h1>U District Crime/Incident Alert Map</h1><br>
@@ -28,7 +30,6 @@
             <p>This interactive map is designed to help students and faculty, residents, and visitors stay informed about crime incidents in the University District. Using real-time data from the Seattle Open Data Portal, this map provides recent police and crime reports, citizen-reported incidents, and EMS calls.</p> <br>
                 <div class="filter-toggles">
                     <h3>Filter Map Features</h3>
-                    <p>Toggle Isochrone <button onclick="filter()" id="toggle-isochrone"><i class="fa fa-toggle-on"></i></button></p>
                     <p>Toggle 911 Emergency Calls <button onclick="filter()" id="toggle-911"><i class="fa fa-toggle-on"></i></button></p>
                     <p>Toggle SPD Crime Data <button onclick="filter()" id="toggle-spd"><i class="fa fa-toggle-on"></i></button></p>
                 </div>
@@ -48,6 +49,8 @@
             </p><br>
             <br><br><br><br><br><br>
         </div>
+
+        <div id="instructions"></div>
 
         <script src="js/main.js"></script>
 

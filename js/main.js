@@ -143,25 +143,25 @@ async function geojsonFetch() {
     fetch911Data();
     setInterval(fetch911Data, 300000); // refresh every 5 minutes
 
-    // fetch and add Isochrone navigation layer
-    loadIsochroneLayer();
-
   })
 
 }
 
 const APP_TOKEN = "j8xvpt9TilXEfJd9DzbQI7Xyg";
 
-// Function to fetch 911 emergency data
+// Function to fetch high threat 911 emergency data
 async function fetch911Data() {
   console.log("Fetching latest 911 data...");
 
   const apiURL = `https://data.seattle.gov/resource/33kz-ixgy.geojson?$query=
-                  SELECT *
-                  ORDER BY cad_event_original_time_queued DESC
-                  LIMIT 1000
-                  &$$app_token=${APP_TOKEN}`
-
+                  SELECT%20*%20
+                  WHERE%20final_call_type%20LIKE%20%27%25ASSAULT%25%27%20
+                  OR%20final_call_type%20LIKE%20%27%25SHOOTING%25%27%20
+                  OR%20final_call_type%20LIKE%20%27%25ROBBERY%25%27%20
+                  OR%20final_call_type%20LIKE%20%27%25FIRE%25%27%20
+                  OR%20final_call_type%20LIKE%20%27%25BOMB%25%27%20
+                  ORDER%20BY%20cad_event_original_time_queued%20DESC%20
+                  LIMIT%201000%20&$$app_token=${APP_TOKEN}`;
 
   let response = await fetch(apiURL);
   let geojson = await response.json();
@@ -180,21 +180,61 @@ async function fetch911Data() {
     }
   }));
 
+  let uniquePoints = {};
+  geojson.features = geojson.features.filter(feature => {
+    let key = `${feature.geometry.coordinates[0]},${feature.geometry.coordinates[1]}`;
+    if (uniquePoints[key]) {
+      return false; // Skip duplicate points
+    }
+    uniquePoints[key] = true;
+    return true; // Keep unique points
+  });
 
-  // If source already exists, update it
-  if (map.getSource('911-data')) {
-    map.getSource('911-data').setData(geojson);
+
+  // create 35m buffers around each point using Turf.js
+  let bufferFeatures = geojson.features.map(feature =>
+    turf.buffer(feature, 35, { units: "meters" }) // 35m
+  );
+
+  // Merge all buffers into a single feature collection
+  let bufferGeoJSON = turf.featureCollection(bufferFeatures);
+
+  // Add buffer layer first (to keep it below points)
+  if (map.getSource("911-buffers")) {
+    map.getSource("911-buffers").setData(bufferGeoJSON);
   } else {
-    map.addSource('911-data', { type: 'geojson', data: geojson });
+    map.addSource("911-buffers", { type: "geojson", data: bufferGeoJSON });
 
     map.addLayer({
-      id: '911-points',
-      type: 'circle',
-      source: '911-data',
+      id: "911-buffer-layer",
+      type: "fill",
+      source: "911-buffers",
+      layout: {},
       paint: {
-        'circle-radius': 3,
-        'circle-color': '#FF0000',
-        'circle-opacity': 0.8
+        "fill-color": "#FFCC00", // Warning Yellow for Danger Zones
+        "fill-opacity": 0.5, // Lower opacity to make points clickable
+        "fill-outline-color": "#FF9900" // Orange outline for visibility
+      }
+    });
+  }
+
+
+  // Add 911 call points to the map
+  if (map.getSource("911-data")) {
+    map.getSource("911-data").setData(geojson);
+  } else {
+    map.addSource("911-data", { type: "geojson", data: geojson });
+
+    map.addLayer({
+      id: "911-points",
+      type: "circle",
+      source: "911-data",
+      paint: {
+        "circle-radius": 2,
+        "circle-color": "#FF4500", // Orange-Red for High-Risk Calls
+        "circle-opacity": 0.9,
+        "circle-stroke-width": 1.5,
+        "circle-stroke-color": "#8B0000" // Dark Red Outline
       }
     });
 
@@ -216,8 +256,8 @@ async function fetch911Data() {
                   <td>${feature.properties['cad_event_original_time_queued'] || 'N/A'}</td>
                 </tr>
                 <tr>
-                  <td><strong>Call Type:</strong></td>
-                  <td>${feature.properties['call_type'] || 'N/A'}</td>
+                  <td><strong>Incident Type:</strong></td>
+                  <td>${feature.properties['final_call_type'] || 'N/A'}</td>
                 </tr>
                 <tr>
                   <td><strong>Dispatch Neighborhood:</strong></td>
@@ -239,16 +279,108 @@ async function fetch911Data() {
         map.getCanvas().style.cursor = 'pointer';
       });
 
-      // cursor change on hover for 911 data
-      map.on('mouseenter', '911-points', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-
       map.on('mouseleave', '911-points', () => {
         map.getCanvas().style.cursor = '';
       });
 
 }
+
+let startMarker, endMarker;
+let navigationActive = false;
+let dangerZones = null; // Store 911 buffer danger zones
+
+// Ensure dangerZones is correctly populated from the 911 buffers
+function updateDangerZones() {
+    const bufferSource = map.getSource("911-buffers");
+    if (bufferSource) {
+        dangerZones = turf.featureCollection(bufferSource._data.features);
+    }
+}
+
+// 🔹 Function to Get Directions & Display Warning if Route Passes Danger Zones
+async function getRoute(start, end) {
+    updateDangerZones(); // Ensure latest buffer zones
+
+    const directionsURL = `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&steps=true&access_token=${mapboxgl.accessToken}`;
+
+    let response = await fetch(directionsURL);
+    let data = await response.json();
+    let route = data.routes[0].geometry;
+    let steps = data.routes[0].legs[0].steps;
+
+    let routeLine = turf.lineString(route.coordinates);
+
+    // **Check if Route Intersects Any Danger Zones**
+    let intersects = false;
+    if (dangerZones) {
+        for (let buffer of dangerZones.features) {
+            if (turf.booleanIntersects(routeLine, buffer)) {
+                intersects = true;
+                break;
+            }
+        }
+    }
+
+    // 🔹 If danger zone detected, show a warning alert
+    if (intersects) {
+        alert("⚠ Caution: This route goes through a high-risk area. Stay aware of your surroundings and consider an alternate route if possible.");
+    }
+
+    // If source exists, update it; otherwise, create new
+    if (map.getSource("route")) {
+        map.getSource("route").setData({ type: "Feature", geometry: route });
+    } else {
+        map.addSource("route", { type: "geojson", data: { type: "Feature", geometry: route } });
+        map.addLayer({
+            id: "route-layer",
+            type: "line",
+            source: "route",
+            layout: { "line-join": "round", "line-cap": "round" },
+            paint: { "line-color": intersects ? "#FF4500" : "#007AFF", "line-width": 4 }
+        });
+    }
+
+    // 🔹 Display Turn Instructions
+    const instructions = document.getElementById('instructions');
+    instructions.style.display = "block"; // Show instructions panel
+    let tripInstructions = `<p><strong>Trip duration: ${Math.floor(data.routes[0].duration / 60)} min 🚶</strong></p><ol>`;
+
+    for (const step of steps) {
+        tripInstructions += `<li>${step.maneuver.instruction}</li>`;
+    }
+
+    instructions.innerHTML = tripInstructions + "</ol>";
+}
+
+// 🔹 Click Event to Set Start & End Points
+map.on("click", (e) => {
+    if (!navigationActive) return; // Prevent setting points unless navigation is active
+
+    if (!startMarker) {
+        startMarker = new mapboxgl.Marker({ color: "green" }).setLngLat(e.lngLat).addTo(map);
+    } else if (!endMarker) {
+        endMarker = new mapboxgl.Marker({ color: "red" }).setLngLat(e.lngLat).addTo(map);
+        getRoute(startMarker.getLngLat().toArray(), endMarker.getLngLat().toArray());
+    } else {
+        resetNavigation();
+    }
+});
+
+// 🔹 Reset Navigation Function
+function resetNavigation() {
+    if (startMarker) startMarker.remove();
+    if (endMarker) endMarker.remove();
+    startMarker = endMarker = null;
+    navigationActive = false;
+
+    document.getElementById("instructions").style.display = "none"; // Hide instructions panel
+
+    if (map.getSource("route")) {
+        map.removeLayer("route-layer");
+        map.removeSource("route");
+    }
+}
+
 
 // initialize the single legend container
 function initLegend() {
@@ -293,15 +425,15 @@ function create911Legend() {
 }
 
 // Toggle Visibility of Layers
-document.getElementById('toggle-isochrone').addEventListener('click', function () {
-  let visibility = map.getLayoutProperty('isochrone-layer', 'visibility') || 'visible';
-  map.setLayoutProperty('isochrone-layer', 'visibility', visibility === 'visible' ? 'none' : 'visible');
-  toggleFilter(this, visibility);
-});
-
 document.getElementById('toggle-911').addEventListener('click', function () {
   let visibility = map.getLayoutProperty('911-points', 'visibility') || 'visible';
-  map.setLayoutProperty('911-points', 'visibility', visibility === 'visible' ? 'none' : 'visible');
+  let newVisibility = visibility === 'visible' ? 'none' : 'visible';
+
+  // Toggle both the 911 call points and the buffer layer
+  map.setLayoutProperty('911-points', 'visibility', newVisibility);
+  map.setLayoutProperty('911-buffer-layer', 'visibility', newVisibility);
+  map.setLayoutProperty('911-buffer-outline', 'visibility', newVisibility);
+
   toggleFilter(this, visibility);
 });
 
@@ -309,6 +441,13 @@ document.getElementById('toggle-spd').addEventListener('click', function () {
   let visibility = map.getLayoutProperty('places-layer', 'visibility') || 'visible';
   map.setLayoutProperty('places-layer', 'visibility', visibility === 'visible' ? 'none' : 'visible');
   toggleFilter(this, visibility);
+});
+
+// 🔹 Toggle Navigation on "Navigate Me" Click
+document.getElementById("navigateMe").addEventListener("click", () => {
+  resetNavigation();
+  navigationActive = true;
+  alert("Click on the map to set start and end points.");
 });
 
 

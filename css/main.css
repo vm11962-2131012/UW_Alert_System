@@ -171,7 +171,35 @@ p {
     transition: color 0.3s;
     cursor: pointer;
 }
-  
+
 .filter-toggles button:hover, .closebtn:hover {
     color: #e8e3d3;
+}
+
+#navigateMe {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px 15px;
+  background: #007AFF;
+  color: white;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+#instructions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: white;
+  padding: 15px;
+  overflow-y: auto;
+  font-family: Arial, sans-serif;
+  box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
+  display: none; /* Hidden by default */
 }

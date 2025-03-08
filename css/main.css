@@ -211,14 +211,32 @@ p {
 
 #instructions {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 300px;
+  right: 10px;
+  top: 60px;
+  width: 25vw;
   height: 100%;
-  background: white;
+  background: #4b2e83;
   padding: 15px;
   overflow-y: auto;
   font-family: Arial, sans-serif;
   box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
-  display: none; /* Hidden by default */
+  display: none;
+}
+
+#instructions p {
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+#instructions ol {
+  color: white;
+  padding-left: 15px;
+  list-style-type: decimal;
+}
+
+#instructions li {
+  color: white;
+  margin-bottom: 5px;
+  line-height: 1.5;
 }

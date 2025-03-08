@@ -416,13 +416,17 @@ function create911Legend() {
   const calls911LegendContent = `
     <div class="legend-section">
       <h3>Live 911 Calls</h3>
-      <div class="legend-item"><span class="legend-key" style="background-color: #FF0000;"></span><span>Emergency Calls</span></div>
+      <div class="legend-item">
+        <span class="legend-key emergency-call"></span>
+        <span>Emergency Calls</span>
+      </div>
     </div>
   `;
 
   // append the content to the legend
   legend.innerHTML += calls911LegendContent;
 }
+
 
 // Toggle Visibility of Layers
 document.getElementById('toggle-911').addEventListener('click', function () {
@@ -454,26 +458,27 @@ document.getElementById("navigateMe").addEventListener("click", () => {
 geojsonFetch();
 
 
-// Add Sidebar Info Panel Open and Close Functions
+
 function openNav() {
-  // slides sidebar in
-  document.getElementById("sidebar").style.width = "400px";
-  // pushes main content, map, and features to the right
-  document.getElementById("main").style.marginLeft = "0px";
-  document.getElementById("map").style.marginLeft = "0px";
-  document.getElementById("legend").style.marginLeft = "0px";
-  document.getElementById("toggleButton").style.display = "none";
+  document.getElementById("sidebar").style.width = "400px"; 
+  document.getElementById("main").classList.remove("sidebar-closed"); 
+
+  // Added: Resize the map when the sidebar opens
+  setTimeout(() => {
+      map.resize();
+  }, 300);
 }
 
 function closeNav() {
-  // pushes sidebar out
-  document.getElementById("sidebar").style.width = "0";
-  // resets position of main content, map, and features
-  document.getElementById("main").style.marginLeft = "-400px";
-  document.getElementById("map").style.marginLeft = "-250px";
-  document.getElementById("legend").style.marginLeft = "-400px";
-  document.getElementById("toggleButton").style.display = "block";
+  document.getElementById("sidebar").style.width = "0"; 
+  document.getElementById("main").classList.add("sidebar-closed"); 
+
+  // Resize the map when the sidebar closes
+  setTimeout(() => {
+      map.resize();
+  }, 300);
 }
+
 
 function toggleFilter(button, visibility) {
   const icon = button.querySelector('i');

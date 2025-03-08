@@ -408,16 +408,33 @@ function createSPDLegend() {
   legend.innerHTML += spdLegendContent;
 }
 
-// function to create 911 calls legend
 function create911Legend() {
   const legend = document.getElementById('legend');
 
-  // create 911 calls legend content
+  // Double circle style
   const calls911LegendContent = `
     <div class="legend-section">
       <h3>Live 911 Calls</h3>
-      <div class="legend-item">
-        <span class="legend-key emergency-call"></span>
+      <div class="legend-item" style="height: 22px;">
+        <div style="position: relative; width: 22px; height: 22px; margin-right: 10px;">
+          <span style="
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background-color: #FFCC00;
+            opacity: 0.5;
+            border-radius: 50%;
+          "></span>
+          <span style="
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 6px;
+            height: 6px;
+            background-color: #FF0000;
+            border-radius: 50%;
+          "></span>
+        </div>
         <span>Emergency Calls</span>
       </div>
     </div>

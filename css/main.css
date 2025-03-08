@@ -1,3 +1,21 @@
+/* If we change just one place, it will be reflected throughout the site. */
+:root {
+    --uw-purple: #4b2e83;
+    --uw-gold: #b7a37d;
+    --uw-gold-light: #e8e3d3;
+    --white: #ffffff;
+    --black: #000000;
+    --light-background: rgba(255, 255, 255, 0.8);
+    --shadow: rgba(0, 0, 0, 0.15);
+    --danger: #ff0000;
+    --warning: #ffa500;
+    --caution: #ffff00;
+  }
+
+  body, h1, h2, h3, p, button {
+    font-family: Arial, sans-serif;
+  }
+
 html {
     overflow-x: hidden;
 }
@@ -61,14 +79,15 @@ p {
 }
 
 .sidebar {
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     height: 100%;
     width: 400px;
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
-    background-color: #4b2e83;
+    /* left: 0;
+    background-color: #4b2e83; */
+    background-color: var(--uw-purple);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -130,7 +149,7 @@ p {
     max-height: 300px;
     overflow-y: auto;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     max-width: 250px;
     z-index: 1000;
     transition: margin-left .5s;
@@ -199,79 +218,32 @@ p {
 
 #instructions {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 300px;
+  right: 10px;
+  top: 60px;
+  width: 25vw;
   height: 100%;
-  background: white;
+  background: #4b2e83;
   padding: 15px;
   overflow-y: auto;
   font-family: Arial, sans-serif;
   box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
-  display: none; /* Hidden by default */
+  display: none;
 }
 
-.emergency-call {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: radial-gradient(circle, red 2%, yellow 70%);
-    border: 1px solid black;
-  }
-
-  
-/* For screens 768px or smaller (Tablet size) */
-@media screen and (max-width: 768px) {
-    #legend {
-        left: 10px; 
-        bottom: 10px;
-        max-width: 160px; 
-        padding: 6px; 
-        font-size: 12px; 
-    }
-
-    .legend-title {
-        font-size: 14px; 
-    }
-
-    .legend-section h3 {
-        font-size: 12px; 
-    }
-
-    .legend-item {
-        margin-bottom: 5px;
-    }
-
-    .legend-key {
-        width: 10px; 
-        height: 10px;
-    }
+#instructions p {
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
 }
 
-/* For screens 480px or smaller (Mobile size) */
-@media screen and (max-width: 480px) {
-    #legend {
-        left: 5px; 
-        bottom: 5px;
-        max-width: 120px; 
-        padding: 4px;
-        font-size: 10px; 
-    }
+#instructions ol {
+  color: white;
+  padding-left: 15px;
+  list-style-type: decimal;
+}
 
-    .legend-title {
-        font-size: 12px;
-    }
-
-    .legend-section h3 {
-        font-size: 10px;
-    }
-
-    .legend-item {
-        margin-bottom: 3px;
-    }
-
-    .legend-key {
-        width: 8px;
-        height: 8px;
-    }
+#instructions li {
+  color: white;
+  margin-bottom: 5px;
+  line-height: 1.5;
 }

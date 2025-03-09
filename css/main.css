@@ -15,14 +15,23 @@ p {
     margin: 10px;
 }
 
+
 #map {
+    width: 100% !important;  
+    height: 100vh; 
     position: absolute;
     top: 0;
-    bottom: 0;
     left: 0;
-    right: 0;
-    width: 100%;
 }
+#main {
+    transition: margin-left 0.5s ease-in-out;
+}
+
+.sidebar-closed #main {
+    margin-left: 0 !important; /* Keep the map in place when the sidebar is closed */
+}
+
+
 
 .map-overlay {
     position: absolute;
@@ -46,12 +55,10 @@ p {
     width: 350px;
 }
 
-
 .mapboxgl-canvas-container.mapboxgl-interactive,
 .mapboxgl-ctrl-group button.mapboxgl-ctrl-compass {
     cursor: unset;
 }
-
 
 .sidebar {
     font-family: Arial, sans-serif;
@@ -201,23 +208,70 @@ p {
   overflow-y: auto;
   font-family: Arial, sans-serif;
   box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
-  display: none;
+  display: none; /* Hidden by default */
 }
 
-#instructions p {
-  font-weight: bold;
-  color: white;
-  margin-bottom: 10px;
+.emergency-call {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle, red 2%, yellow 70%);
+    border: 1px solid black;
+  }
+
+  
+/* For screens 768px or smaller (Tablet size) */
+@media screen and (max-width: 768px) {
+    #legend {
+        left: 10px; 
+        bottom: 10px;
+        max-width: 160px; 
+        padding: 6px; 
+        font-size: 12px; 
+    }
+
+    .legend-title {
+        font-size: 14px; 
+    }
+
+    .legend-section h3 {
+        font-size: 12px; 
+    }
+
+    .legend-item {
+        margin-bottom: 5px;
+    }
+
+    .legend-key {
+        width: 10px; 
+        height: 10px;
+    }
 }
 
-#instructions ol {
-  color: white;
-  padding-left: 15px;
-  list-style-type: decimal;
-}
+/* For screens 480px or smaller (Mobile size) */
+@media screen and (max-width: 480px) {
+    #legend {
+        left: 5px; 
+        bottom: 5px;
+        max-width: 120px; 
+        padding: 4px;
+        font-size: 10px; 
+    }
 
-#instructions li {
-  color: white;
-  margin-bottom: 5px;
-  line-height: 1.5;
+    .legend-title {
+        font-size: 12px;
+    }
+
+    .legend-section h3 {
+        font-size: 10px;
+    }
+
+    .legend-item {
+        margin-bottom: 3px;
+    }
+
+    .legend-key {
+        width: 8px;
+        height: 8px;
+    }
 }

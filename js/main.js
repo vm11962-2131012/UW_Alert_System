@@ -460,8 +460,8 @@ geojsonFetch();
 
 
 function openNav() {
-  document.getElementById("sidebar").style.width = "400px"; 
-  document.getElementById("main").classList.remove("sidebar-closed"); 
+  document.getElementById("sidebar").style.width = "400px";
+  document.getElementById("main").classList.remove("sidebar-closed");
 
   // Added: Resize the map when the sidebar opens
   setTimeout(() => {
@@ -470,8 +470,8 @@ function openNav() {
 }
 
 function closeNav() {
-  document.getElementById("sidebar").style.width = "0"; 
-  document.getElementById("main").classList.add("sidebar-closed"); 
+  document.getElementById("sidebar").style.width = "0";
+  document.getElementById("main").classList.add("sidebar-closed");
 
   // Resize the map when the sidebar closes
   setTimeout(() => {

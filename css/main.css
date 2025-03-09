@@ -211,6 +211,10 @@ p {
   display: none; /* Hidden by default */
 }
 
+#instructions li {
+  color: white;
+}
+
 .emergency-call {
     width: 14px;
     height: 14px;

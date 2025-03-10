@@ -399,7 +399,7 @@ function createSPDLegend() {
       <h3>SPD Crime Data</h3>
       <div class="legend-item"><span class="legend-key" style="background-color:rgb(42, 0, 76);"></span><span>Motor Vehicle Theft</span></div>
       <div class="legend-item"><span class="legend-key" style="background-color:rgb(69, 9, 132);"></span><span>Larceny-Theft</span></div>
-      <div class="legend-item"><span class="legend-key" style="background-color:rgb(106, 55, 145);"></span><span>Destruction/Damage/Vandalism</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(106, 55, 145);"></span><span>Destruction / Damage / Vandalism</span></div>
       <div class="legend-item"><span class="legend-key" style="background-color:rgb(134, 103, 154);"></span><span>Fraud Offenses</span></div>
       <div class="legend-item"><span class="legend-key" style="background-color:rgb(187, 150, 246);"></span><span>Other</span></div>
     </div>
@@ -458,28 +458,120 @@ document.getElementById("navigateMe").addEventListener("click", () => {
 geojsonFetch();
 
 
+// tracks visibility of sidebar - automatically loads with map
+let sidebarState = 'open';
 
-function openNav() {
+// function for sidebar toggle buttons to open and close it
+function togglePanel() {
+  let screenWidth = window.innerWidth;
+  // opens sidebar if it was closed before
+  if (sidebarState === 'closed') {
+    // updates visibility depending on screen size
+    sidebarState = 'open';
+    if (screenWidth < 768) {
+      openPanelSmall();
+    } else {
+      openPanel();
+      // slightly moves map with sidebar for better visibility
+      const currentCenter = map.getCenter();
+      const offsetLongitude = currentCenter.lng - 0.01;
+      const offsetLatitude = currentCenter.lat;
+
+      map.flyTo({
+        center: [offsetLongitude, offsetLatitude],
+        zoom: map.getZoom(),
+        speed: 0.5,
+        curve: 0.75,
+        easing: (t) => t
+        });
+    }
+  } else {
+    // closes sidebar if it was open before
+    // updates visibility depending on screen size
+    sidebarState = 'closed';
+    if (screenWidth < 768) {
+      closePanelSmall();
+    } else {
+      closePanel();
+      // moves map slightly back to original placement
+      const currentCenter = map.getCenter();
+      const offsetLongitude = currentCenter.lng + 0.01;
+      const offsetLatitude = currentCenter.lat;
+
+      map.flyTo({
+        center: [offsetLongitude, offsetLatitude],
+        zoom: map.getZoom(),
+        speed: 0.5,
+        curve: 0.75,
+        easing: (t) => t
+      });
+    }
+  }
+}
+
+// moves sidebar and contents when window resizes, keeping sidebar visibility the same
+window.addEventListener('resize', function() {
+  let screenWidth = window.innerWidth;
+  if (screenWidth < 768 && sidebarState === 'open') {
+    openPanelSmall();
+  } else if (screenWidth < 768 && sidebarState === 'closed') {
+    closePanelSmall();
+  } else if (screenWidth > 768 && sidebarState === 'open') {
+    openPanel();
+  } else if (screenWidth > 768 && sidebarState === 'closed') {
+    closePanel();
+  }
+});
+
+// opens sidebar and moves content
+function openPanel() {
   document.getElementById("sidebar").style.width = "400px";
-  document.getElementById("main").classList.remove("sidebar-closed");
-
-  // Added: Resize the map when the sidebar opens
-  setTimeout(() => {
-      map.resize();
-  }, 300);
+  document.getElementById("legend").style.marginLeft = "0px";
+  document.getElementById("toggleButton").style.display = "none";
 }
 
-function closeNav() {
-  document.getElementById("sidebar").style.width = "0";
-  document.getElementById("main").classList.add("sidebar-closed");
-
-  // Resize the map when the sidebar closes
-  setTimeout(() => {
-      map.resize();
-  }, 300);
+// closes sidebar and moves content
+function closePanel() {
+  document.getElementById("sidebar").style.width = "0px";
+  document.getElementById("legend").style.marginLeft = "-400px";
+  document.getElementById("toggleButton").style.display = "block";
 }
 
+// opens sidebar/moves content on small screens
+function openPanelSmall() {
+  let screenWidth = window.innerWidth;
+  let sidebar = document.getElementById("sidebar");
+  let legend = document.getElementById("legend");
+  let toggleButton = document.getElementById("toggleButton");
+  if (screenWidth <= 480) {
+    sidebar.style.width = "175px";
+    legend.style.marginLeft = "-265px";
+    toggleButton.style.display = "none";
+  } else {
+    sidebar.style.width = "250px";
+    legend.style.marginLeft = "-175px";
+    toggleButton.style.display = "none";
+  }
+}
 
+// closes sidebar/moves content on small screens
+function closePanelSmall() {
+  let screenWidth = window.innerWidth;
+  let sidebar = document.getElementById("sidebar");
+  let legend = document.getElementById("legend");
+  let toggleButton = document.getElementById("toggleButton");
+  if (screenWidth <= 480) {
+    sidebar.style.width = "0px";
+    legend.style.marginLeft = "-440px";
+    toggleButton.style.display = "block";
+  } else {
+    sidebar.style.width = "0px";
+    legend.style.marginLeft = "-425px";
+    toggleButton.style.display = "block";
+  }
+}
+
+// changes icon of filter toggle buttons when clicked
 function toggleFilter(button, visibility) {
   const icon = button.querySelector('i');
   if (visibility === 'visible') {

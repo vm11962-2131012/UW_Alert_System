@@ -24,6 +24,27 @@ async function geojsonFetch() {
 
   map.on('load', function loadingData() {
 
+    // add osm campus
+    map.addSource('osm-campus', {
+      type: 'geojson',
+      data: osmData
+    })
+
+    // get the first label layer id to place the campus layer below it
+    const firstLabelLayerId = map.getStyle().layers.find(
+      layer => layer.type === 'symbol' && layer.layout['text-field']
+    ).id;
+
+    // campus layer, add in the first label layer to keep osm below mapbox labels
+    map.addLayer({
+      'id': 'osm-campus-layer',
+      'type': 'fill',
+      'source': 'osm-campus',
+      'paint': {
+          'fill-color': '#e8e3d3'
+      }
+    }, firstLabelLayerId);
+
     // add uw boundary first
     map.addSource('uw-campus', {
       type: 'geojson',
@@ -40,25 +61,6 @@ async function geojsonFetch() {
           'line-width': 3
       }
     });
-
-    // add osm campus
-    map.addSource('osm-campus', {
-      type: 'geojson',
-      data: osmData
-    })
-
-    // campus layer
-    map.addLayer({
-      'id': 'osm-campus-layer',
-      'type': 'fill',
-      'source': 'osm-campus',
-      'paint': {
-          'fill-color': '#e8e3d3'
-      }
-    });
-
-
-    // hover/click for osm data here
 
     // add spd crime data
     map.addSource('places', {

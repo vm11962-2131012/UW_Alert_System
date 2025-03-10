@@ -201,12 +201,17 @@ p {
   font-family: Arial, sans-serif;
   box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
   display: none; /* Hidden by default */
-  
+
 }
 
 #instructions li {
   color: white;
 }
+
+#instruction p {
+  color: white
+}
+
 
 .emergency-call {
     width: 14px;
@@ -262,7 +267,7 @@ p {
         margin: 5px;
         font-size: 16px;
     }
-    
+
     .sidebar h3 {
         font-size: 14px;
     }
@@ -328,7 +333,7 @@ p {
     .sidebar h2 {
         font-size: 12px;
     }
-    
+
     .sidebar h3 {
         font-size: 11px;
     }

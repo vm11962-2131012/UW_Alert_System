@@ -343,7 +343,7 @@ async function getRoute(start, end) {
     // 🔹 Display Turn Instructions
     const instructions = document.getElementById('instructions');
     instructions.style.display = "block"; // Show instructions panel
-    let tripInstructions = `<p><strong>Trip duration: ${Math.floor(data.routes[0].duration / 60)} min 🚶</strong></p><ol>`;
+    let tripInstructions = `<p style="color: white; font-weight: bold;"><strong>Trip duration: ${Math.floor(data.routes[0].duration / 60)} min 🚶</strong></p><ol>`;
 
     for (const step of steps) {
         tripInstructions += `<li>${step.maneuver.instruction}</li>`;

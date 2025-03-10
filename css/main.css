@@ -219,7 +219,7 @@ p {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: radial-gradient(circle, red 2%, yellow 70%);
+    background: radial-gradient(circle, red 2%, yellow 50%);
     border: 1px solid black;
   }
 

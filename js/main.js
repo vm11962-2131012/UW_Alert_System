@@ -212,7 +212,7 @@ async function fetch911Data() {
       layout: {},
       paint: {
         "fill-color": "#FFCC00", // Warning Yellow for Danger Zones
-        "fill-opacity": 0.5, // Lower opacity to make points clickable
+        "fill-opacity": 0.30, // Lower opacity to make points clickable
         "fill-outline-color": "#FF9900" // Orange outline for visibility
       }
     });

@@ -15,7 +15,7 @@
     <body>
         <div id="map"></div>
         <div id="main">
-            <button id="toggleButton" class="openbtn" onclick="openNav()"><i class="fa fa-bars"></i></button>
+            <button id="toggleButton" class="openbtn" onclick="togglePanel()"><i class="fa fa-bars"></i></button>
         </div>
 
 
@@ -24,29 +24,34 @@
         <button id="navigateMe">Navigate Me</button>
 
         <div id="sidebar" class="sidebar">
-            <button class="closebtn" onclick="closeNav()"><i class="fa fa-remove"></i></button>
+            <button class="closebtn" onclick="togglePanel()"><i class="fa fa-remove"></i></button>
             <h1>UW Alert Mapping System</h1><br>
             <h2>About the Map</h2>
             <p>This interactive map is designed to help students and faculty, residents, and visitors stay informed about crime incidents in the University District. Using real-time data from the Seattle Open Data Portal, this map provides recent police and crime reports, citizen-reported incidents, and EMS calls.</p> <br>
                 <div class="filter-toggles">
                     <h3>Filter Map Features</h3>
-                    <p>Toggle 911 Emergency Calls <button onclick="filter()" id="toggle-911"><i class="fa fa-toggle-on"></i></button></p>
-                    <p>Toggle SPD Crime Data <button onclick="filter()" id="toggle-spd"><i class="fa fa-toggle-on"></i></button></p>
+                    <p>Toggle 911 Emergency Calls <button onclick="toggleFilter()" id="toggle-911"><i class="fa fa-toggle-on"></i></button></p>
+                    <p>Toggle SPD Crime Data <button onclick="toggleFilter()" id="toggle-spd"><i class="fa fa-toggle-on"></i></button></p>
                 </div>
             <br>
-            <h3>Key Features</h3>
-            <p><em>Live Crime Updates</em><br><br>
-            A live-updating map of all police reports, crime reports, EMS calls or citizen-reported incidents
-            </p><br>
-            <p><em>Rerouting for Safe Navigation</em><br><br>
-            Rerouting function for users to their destinations on campus, avoiding any active crime scenes (buffers around certain areas), with adjustable travel methods (isochrone mapping)
-            </p><br>
-            <p><em>Crime Data in UW</em><br><br>
-            Seattle Police Department crime data from all of 2025
-            </p><br>
-            <p><em>Interactive Crime Alerts</em><br><br>
-            Popup alerts of crime incidents with information about the incident, including date, time, and location
-            </p><br>
+            <h2>Key Features</h2>
+            <h3><em>Live Crime Updates</em></h3>
+            <p>A live-updating map of all police reports, crime reports, EMS calls or citizen-reported incidents</p>
+            <h3><em>Rerouting for Safe Navigation</em></h3>
+            <p>Rerouting function for users to their destinations on campus, avoiding any active crime scenes (buffers around certain areas), with adjustable travel methods</p>
+            <h3><em>Navigation Tool</em></h3>
+            <p>The navigation tool allows users to choose points on the map to create a safe route.</p>
+            <h3><em>Instructions:</em></h3>
+            <p>1. Click the navigation button in the upper right corner.</p>
+            <p>2. Click "Okay" on the popup.</p>
+            <p>3. Pick a starting point on the map; the point will be green.</p>
+            <p>4. Pick a destination point on the map; the point will be red.</p>
+            <p>5. The route directions and trip duration will display in a panel on the right side.</p>
+            <p><strong>⚠️ Warning:</strong> If the route navigates through a high-risk area, a warning will display on the screen.</p>  
+            <h3><em>Crime Data in UW</em></h3>
+            <p>Seattle Police Department crime data from all of 2025</p>
+            <h3><em>Interactive Crime Alerts</em></h3>
+            <p>Popup alerts of crime incidents with information about the incident, including date, time, and location</p>
             <br><br><br><br><br><br>
         </div>
 

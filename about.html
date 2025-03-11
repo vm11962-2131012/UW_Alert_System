@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UW Alert System - Project Overview</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/about.css">
+</head>
+<body>
+
+
+  <nav class="navbar navbar-expand-lg" style="background-color: #4B2E83;">
+      <div class="container">
+          <a class="navbar-brand text-white fw-bold" href="#">UW Alert Mapping System</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                  <li class="nav-item"><a class="nav-link text-white" href="#about">About</a></li>
+                  <li class="nav-item"><a class="nav-link text-white" href="#features">Features</a></li>
+                  <li class="nav-item"><a class="nav-link text-white" href="#screenshots">Screenshots</a></li>
+                  <li class="nav-item"><a class="nav-link text-white" href="#technologies">Technologies</a></li>
+                  <li class="nav-item"><a class="nav-link text-white" href="#github">GitHub</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+
+
+
+  <header class="text-white text-center py-5" style="background-color: #85754D;">
+      <div class="container">
+          <h1>UW Alert Mapping System</h1>
+          <p class="lead">Real-Time Crime and Emergency Reporting Web Map</p>
+      </div>
+  </header>
+
+
+
+
+  <section id="about" class="container my-5">
+      <h2 class="text-purple">Project Description</h2>
+      <p>The UW Alert Mapping System is a dynamic, real-time crime and emergency reporting web map designed to enhance public safety awareness around the University of Washington (UW) campus.</p>
+      <ul>
+          <li>Live emergency 911 call reports</li>
+          <li>Historical crime data analysis</li>
+          <li>Campus infrastructure and navigation details</li>
+      </ul>
+  </section>
+
+
+
+
+  <section id="features" class="py-5" style="background-color:#b7a57a;">
+      <div class="container">
+          <h2 class="text-purple">Main Functions & Features</h2>
+          <ul>
+              <li><strong>Live 911 Emergency Reports</strong> - Displays real-time emergency calls from Seattle 911 Dispatch.</li>
+              <li><strong>Crime Data Visualization</strong> - Historical crime reports from SPD data (2024-Present).</li>
+              <li><strong>Safe Route Navigation</strong> - Avoids high-crime areas using dynamic rerouting.</li>
+              <li><strong>Interactive UI</strong> - Users can toggle different data layers.</li>
+          </ul>
+      </div>
+  </section>
+
+
+
+
+  <section id="screenshots" class="container my-5">
+      <h2 class="text-purple">Screenshots</h2>
+      <div class="row">
+          <div class="col-md-6">
+              <img src="screenshot1.png" class="img-fluid border border-3 border-purple rounded" alt="Main Interface">
+              <p>Main Interface</p>
+          </div>
+          <div class="col-md-6">
+              <img src="screenshot2.png" class="img-fluid border border-3 border-purple rounded" alt="Feature Overview">
+              <p>Feature Overview</p>
+          </div>
+      </div>
+  </section>
+
+
+
+
+  <section id="technologies" class="py-5" style="background-color: #b7a57a">
+      <div class="container">
+          <h2 class="text-purple">Technologies & Libraries Used</h2>
+          <ul>
+              <li>Mapbox GL JS - For interactive mapping.</li>
+              <li>OpenStreetMap (OSM) - Navigation and infrastructure data.</li>
+              <li>Seattle Open Data API - Live crime and emergency data.</li>
+              <li>Python (Pandas, Geopandas) - Data processing.</li>
+              <li>Turf.js - Geospatial analysis.</li>
+          </ul>
+      </div>
+  </section>
+  
+  <div class="contactform">
+   <form action="action_page.php">
+      <label for="fname">First Name</label>
+     <input type="text" id="fname" name="firstname" placeholder="Your name..">
+      <label for="lname">Last Name</label>
+     <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+      <label for="country">Country</label>
+     <select id="country" name="country">
+       <option value="australia">Australia</option>
+       <option value="canada">Canada</option>
+       <option value="usa">USA</option>
+       <option value="usa">Other</option>
+     </select>
+      <label for="subject">Subject</label>
+     <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+      <input type="submit" value="Submit">
+    </form>
+ </div>
+
+
+
+
+  <section id="github" class="container my-5 text-center">
+  
+      <h2 class="text-purple">GitHub Repository</h2>
+      <p>This project is open-source and welcomes contributions.</p>
+      <a href="https://github.com/your-repo-link" class="action-bar">View on GitHub</a>
+     
+
+
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.button {
+ position: relative;
+ background-color: #b7a57a;
+ border: none;
+ font-size: 28px;
+ color: #FFFFFF;
+ padding: 20px;
+ width: 200px;
+ text-align: center;
+ -webkit-transition-duration: 0.4s; /* Safari */
+ transition-duration: 0.4s;
+ text-decoration: none;
+ overflow: hidden;
+ cursor: pointer;
+}
+
+
+.button:after {
+ content: "";
+ background: #b7a57a;
+ display: block;
+ position: absolute;
+ padding-top: 300%;
+ padding-left: 350%;
+ margin-left: -20px!important;
+ margin-top: -120%;
+ opacity: 0;
+ transition: all 0.8s
+}
+
+
+.button:active:after {
+ padding: 0;
+ margin: 0;
+ opacity: 1;
+ transition: 0s
+}
+</style>
+</head>
+<body>
+  </section>
+  <footer class="text-white text-center py-3" style="background-color: #4B2E83;">
+      <p>© 2025 UW Alert System. All rights reserved.</p>
+  </footer>
+  <script src="https://github.com/vm11962-2131012/UW_Alert_System.git"></script>
+</body>
+</html>

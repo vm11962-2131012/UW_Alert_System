@@ -1,6 +1,10 @@
-html {
-    overflow-x: hidden;
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
+
+
 
 h2, h3 {
     margin: 10px;
@@ -52,20 +56,22 @@ p {
     cursor: unset;
 }
 
+
+
 .sidebar {
-    font-family: Arial, sans-serif;
-    height: 100%;
-    width: 400px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #4b2e83;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-    display: flex;
-    flex-direction: column;
+  font-family: Arial, sans-serif;
+  height: 100%;
+  width: 400px;
+  position: fixed;
+  z-index: 999;
+  top: 60px;
+  left: 0;
+  background-color: #4b2e83;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar h1, .sidebar h2, .sidebar p, .sidebar h3 {
@@ -76,33 +82,32 @@ p {
 }
 
 .closebtn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 36px;
-    color: #b7a37d;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 28px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  color: #b7a37d;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .openbtn {
-    font-size: 32px;
-    cursor: pointer;
-    background: none;
-    color: #b7a37d;
-    padding: 10px 15px;
-    border: none;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    transition: color 0.3s;
+  font-size: 32px;
+  cursor: pointer;
+  background: none;
+  color: #b7a37d;
+  padding: 10px 15px;
+  border: none;
+  position: absolute;
+  top: 80px;
+  left: 10px;
+  transition: color 0.3s;
 }
 
 .openbtn:hover {
-    color: white;
-    text-shadow: 0 0 2px #85754d, 0 0 5px #85754d, 0 0 10px #85754d, 0 0 15px #e8e3d3
+  color: white;
+  text-shadow: 0 0 2px #85754d, 0 0 5px #85754d, 0 0 10px #85754d, 0 0 15px #e8e3d3;
 }
 
 #main, #features, #map {
@@ -177,9 +182,9 @@ p {
 
 #navigateMe {
   position: absolute;
-  top: 20px;  
-  right: 20px; 
-  padding: 12px 18px; 
+  top: 80px;
+  right: 10px;
+  padding: 12px 18px;
   background: #4b2e83;
   color: white;
   font-size: 15px;
@@ -192,7 +197,7 @@ p {
 #instructions {
   position: absolute;
   right: 10px;
-  top: 60px;
+  top: 150px;
   width: 25vw;
   max-height: 80vh;
   background: #4b2e83;
@@ -220,6 +225,89 @@ p {
     background: radial-gradient(circle, red 2%, yellow 50%);
     border: 1px solid black;
   }
+
+/* NAVBAR STYLES */
+.navbar {
+  background-color: #b7a37d !important; /* Gold navbar */
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding-left: 0; /* Remove default padding */
+}
+
+/* Move Navbar Brand (Title) Further to the Left */
+.navbar .container {
+  padding-left: 0 !important; /* Remove Bootstrap's default padding */
+  margin-left: 0 !important; /* Ensure it's aligned to the edge */
+  max-width: 100%; /* Ensure full width */
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: white !important;
+  margin-left: 10px; /* Adjust left spacing */
+  padding-left: 5px;
+}
+
+/* Align Navbar Links (Map & About) to the Right */
+.navbar-nav {
+  margin-left: auto;
+  padding-right: 20px; /* Shift Map & About to the right */
+}
+
+/* Navbar Link Styling */
+.navbar-nav .nav-link {
+  color: white !important;
+  font-size: 18px;
+  padding: 10px 15px;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+/* Dropdown Menu Background */
+.navbar-collapse {
+  background-color: #b7a37d; /* Matches navbar background */
+  width: 100vw;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  transition: height 0.3s ease-in-out;
+}
+
+/* Ensure Menu Expands Down */
+.navbar-collapse.show {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  width: 100vw;
+  padding: 10px 0;
+}
+
+/* Dropdown Menu Items (No Purple, Just White Text) */
+.navbar-nav .nav-item {
+  display: block;
+  margin: 5px auto;
+}
+
+.navbar-nav .nav-item .nav-link {
+  background: none !important; /* ✅ No background, just text */
+  color: white !important; /* ✅ White text */
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+/* Hover Effect for Dropdown Items */
+.navbar-nav .nav-item .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important; /* Subtle effect */
+}
 
 
 /* For screens 768px or smaller (Tablet size) */
@@ -287,6 +375,30 @@ p {
     .filter-toggles button {
         font-size: 20px;
     }
+
+    .navbar-toggler {
+      display: block;
+    }
+
+    .navbar-collapse {
+      width: 100vw !important; /* ✅ Prevents gaps */
+      position: absolute;
+      left: 0;
+      right: 0;
+    }
+
+
+
+    .navbar-nav {
+      text-align: center;
+      width: 100%;
+    }
+
+    .navbar-nav .nav-item {
+      width: 100%;
+    }
+
+
 }
 
 /* For screens 480px or smaller (Mobile size) */

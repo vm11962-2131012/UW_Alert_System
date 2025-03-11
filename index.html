@@ -5,22 +5,44 @@
         <title>UW Alert Mapping System</title>
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
         <link rel="icon" type="image/x-icon" href="/assets/img/UW_Alert_Favicon.ico">
+
+        <!-- ✅ Bootstrap CSS (Fixes Navbar) -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
         <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/main.css"> <!-- ✅ Make sure main.css does not interfere -->
     </head>
 
     <body>
+
+        <!-- ✅ Navbar (Now Stays at the Top) -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">UW Alert Mapping System</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Map</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ✅ Fix for Navbar Overlapping Content -->
+        <div style="margin-top: 70px;"></div>
+
         <div id="map"></div>
         <div id="main">
             <button id="toggleButton" class="openbtn" onclick="togglePanel()"><i class="fa fa-bars"></i></button>
         </div>
 
-
         <div class='map-overlay' id='legend'></div>
-
         <button id="navigateMe">Navigate Me</button>
 
         <div id="sidebar" class="sidebar">
@@ -28,11 +50,11 @@
             <h1>UW Alert Mapping System</h1><br>
             <h2>About the Map</h2>
             <p>This interactive map is designed to help students and faculty, residents, and visitors stay informed about crime incidents in the University District. Using real-time data from the Seattle Open Data Portal, this map provides recent police and crime reports, citizen-reported incidents, and EMS calls.</p> <br>
-                <div class="filter-toggles">
-                    <h3>Filter Map Features</h3>
-                    <p>Toggle 911 Emergency Calls <button onclick="toggleFilter()" id="toggle-911"><i class="fa fa-toggle-on"></i></button></p>
-                    <p>Toggle SPD Crime Data <button onclick="toggleFilter()" id="toggle-spd"><i class="fa fa-toggle-on"></i></button></p>
-                </div>
+            <div class="filter-toggles">
+                <h3>Filter Map Features</h3>
+                <p>Toggle 911 Emergency Calls <button onclick="toggleFilter()" id="toggle-911"><i class="fa fa-toggle-on"></i></button></p>
+                <p>Toggle SPD Crime Data <button onclick="toggleFilter()" id="toggle-spd"><i class="fa fa-toggle-on"></i></button></p>
+            </div>
             <br>
             <h2>Key Features</h2>
             <h3><em>Live Crime Updates</em></h3>
@@ -47,7 +69,7 @@
             <p>3. Pick a starting point on the map; the point will be green.</p>
             <p>4. Pick a destination point on the map; the point will be red.</p>
             <p>5. The route directions and trip duration will display in a panel on the right side.</p>
-            <p><strong>⚠️ Warning:</strong> If the route navigates through a high-risk area, a warning will display on the screen.</p>  
+            <p><strong>⚠️ Warning:</strong> If the route navigates through a high-risk area, a warning will display on the screen.</p>
             <h3><em>Crime Data in UW</em></h3>
             <p>Seattle Police Department crime data from all of 2025</p>
             <h3><em>Interactive Crime Alerts</em></h3>
@@ -59,5 +81,9 @@
 
         <script src="js/main.js"></script>
 
+        <!-- ✅ Bootstrap JS (Required for Navbar Toggle) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     </body>
 </html>
+

@@ -1,12 +1,26 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap');
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    height: 100%;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
 
+h1,
+h2 {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+}
 
-h2, h3 {
+h2,
+h3 {
     margin: 10px;
     font-size: 18px;
 }
@@ -38,17 +52,9 @@ p {
     border-width: 1px;
     border-color: rgba(0, 0, 0, 0.2);
     margin-left: 20px;
-    font-family: Arial, sans-serif;
+    font-family: "Montserrat", sans-serif;
     overflow: auto;
     border-radius: 3px;
-}
-
-#features {
-    left: 550px;
-    top: 50px;
-    height: 130px;
-    margin-top: 20px;
-    width: 350px;
 }
 
 .mapboxgl-canvas-container.mapboxgl-interactive,
@@ -56,65 +62,66 @@ p {
     cursor: unset;
 }
 
-/* Ensure About Page Content Starts Below the Fixed Navbar */
-.content-container {
-  margin-top: 50px; /* ✅ Pushes content down below the navbar */
-  padding: 10px;
-}
-
 .sidebar {
-  font-family: Arial, sans-serif;
-  height: 100%;
-  width: 400px;
-  position: fixed;
-  z-index: 999;
-  top: 60px;
-  left: 0;
-  background-color: #4b2e83;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 20px;
-  display: flex;
-  flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+    height: 100%;
+    width: 400px;
+    position: fixed;
+    z-index: 1;
+    top: 60px;
+    left: 0;
+    background-color: #4b2e83;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-.sidebar h1, .sidebar h2, .sidebar p, .sidebar h3 {
+.sidebar h1,
+.sidebar h2,
+.sidebar p,
+.sidebar h3 {
     padding: 2px 50px 2px 32px;
     text-decoration: none;
     color: white;
     display: block;
 }
 
+
+
 .closebtn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 28px;
-  color: #b7a37d;
-  background: none;
-  border: none;
-  cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 28px;
+    color: #b7a37d;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .openbtn {
-  font-size: 32px;
-  cursor: pointer;
-  background: none;
-  color: #b7a37d;
-  padding: 10px 15px;
-  border: none;
-  position: absolute;
-  top: 80px;
-  left: 10px;
-  transition: color 0.3s;
+    font-size: 32px;
+    cursor: pointer;
+    background: none;
+    color: #b7a37d;
+    padding: 10px 15px;
+    border: none;
+    position: absolute;
+    top: 80px;
+    left: 10px;
+    transition: color 0.3s;
 }
 
 .openbtn:hover {
-  color: white;
-  text-shadow: 0 0 2px #85754d, 0 0 5px #85754d, 0 0 10px #85754d, 0 0 15px #e8e3d3;
+    color: white;
+    text-shadow: 0 0 2px #85754d, 0 0 5px #85754d, 0 0 10px #85754d, 0 0 15px #e8e3d3;
 }
 
-#main, #features, #map {
+#main,
+#features,
+#map {
     transition: margin-left .5s;
 }
 
@@ -131,9 +138,9 @@ p {
     max-height: 300px;
     overflow-y: auto;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    font-family: Arial, sans-serif;
+    font-family: "Montserrat", sans-serif;
     max-width: 200px;
-    z-index: 1000;
+    z-index: 2;
     transition: margin-left .5s;
 }
 
@@ -168,7 +175,7 @@ p {
     height: 12px;
     margin-right: 10px;
     border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .filter-toggles button {
@@ -180,45 +187,46 @@ p {
     cursor: pointer;
 }
 
-.filter-toggles button:hover, .closebtn:hover {
+.filter-toggles button:hover,
+.closebtn:hover {
     color: #e8e3d3;
 }
 
 #navigateMe {
-  position: absolute;
-  top: 80px;
-  right: 10px;
-  padding: 12px 18px;
-  background: #4b2e83;
-  color: white;
-  font-size: 15px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 80px;
+    right: 10px;
+    padding: 12px 18px;
+    background: #4b2e83;
+    color: white;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    font-family: "Montserrat", sans-serif;
 }
 
 #instructions {
-  position: absolute;
-  right: 10px;
-  top: 150px;
-  width: 25vw;
-  max-height: 80vh;
-  background: #4b2e83;
-  padding: 15px;
-  overflow-y: auto;
-  font-family: Arial, sans-serif;
-  box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
-  display: none; /* Hidden by default */
-
+    position: absolute;
+    right: 10px;
+    top: 150px;
+    width: 25vw;
+    max-height: 80vh;
+    background: #4b2e83;
+    padding: 15px;
+    overflow-y: auto;
+    font-family: "Montserrat", sans-serif;
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
+    display: none;
 }
 
 #instructions li {
-  color: white;
+    color: white;
 }
 
 #instruction p {
-  color: white
+    color: white
 }
 
 
@@ -228,65 +236,6 @@ p {
     border-radius: 50%;
     background: radial-gradient(circle, red 2%, yellow 50%);
     border: 1px solid black;
-  }
-
-/* Navbar Styles */
-.navbar {
-  background-color: #b7a37d !important; /* Gold navbar */
-  height: 60px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  padding-left: 0; /* Remove default padding */
-}
-
-/* Move Navbar Brand (Title) Further to the Left */
-.navbar .container {
-  padding-left: 0 !important; /* Remove Bootstrap's default padding */
-  margin-left: 0 !important; /* Ensure it's aligned to the edge */
-  max-width: 100%; /* Ensure full width */
-}
-
-.navbar-brand {
-  font-weight: bold;
-  color: white !important;
-  margin-left: 10px; /* Adjust left spacing */
-  padding-left: 5px;
-}
-
-/* Align Navbar Links (Map & About) to the Right */
-.navbar-nav {
-  margin-left: auto;
-  padding-right: 20px; /* Shift Map & About to the right */
-}
-
-/* Navbar Link Styling */
-.navbar-nav .nav-link {
-  color: white !important;
-  font-size: 18px;
-  padding: 10px 15px;
-}
-
-.navbar-nav .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
-}
-
-/* Dropdown Menu Background */
-.navbar-collapse {
-  background-color: #b7a37d; /* Matches navbar background */
-  width: 100%;
-  position: absolute;
-  top: 60px;
-  left: 0;
-  display: none; /* Hide by default */
-}
-
-/* Ensure Dropdown Appears */
-.navbar-collapse.show {
-  display: block !important; /* ✅ Forces menu to show when expanded */
 }
 
 
@@ -320,7 +269,10 @@ p {
         width: 250px;
     }
 
-    .sidebar h1, .sidebar h2, .sidebar p, .sidebar h3 {
+    .sidebar h1,
+    .sidebar h2,
+    .sidebar p,
+    .sidebar h3 {
         padding: 2px 25px 2px 25px;
         text-decoration: none;
         color: white;
@@ -331,7 +283,8 @@ p {
         font-size: 20px;
     }
 
-    .sidebar h2, .sidebar h3 {
+    .sidebar h2,
+    .sidebar h3 {
         margin: 5px;
         font-size: 16px;
     }
@@ -356,17 +309,17 @@ p {
         font-size: 20px;
     }
 
-    .navbar-toggler {
-      display: block;
+    .about-section h1 {
+        font-size: 18px;
     }
 
-
-    .navbar-nav {
-      text-align: right;
+    .about-section p {
+        font-size: 16px !important;
     }
 
-
-
+    .about-section {
+        padding: 50px !important;
+    }
 }
 
 /* For screens 480px or smaller (Mobile size) */
@@ -399,7 +352,10 @@ p {
         width: 175px;
     }
 
-    .sidebar h1, .sidebar h2, .sidebar p, .sidebar h3 {
+    .sidebar h1,
+    .sidebar h2,
+    .sidebar p,
+    .sidebar h3 {
         padding: 1px 15px 1px 15px;
         text-decoration: none;
         color: white;
@@ -421,4 +377,115 @@ p {
     .sidebar p {
         font-size: 11px;
     }
+}
+
+.topnav {
+    background-color: #b7a37d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 30px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    height: 60px;
+}
+
+.topnav .brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    margin-right: auto;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 500;
+}
+
+.nav-links {
+    display: flex;
+    margin-left: auto;
+    padding-right: 50px;
+}
+
+.nav-links a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+}
+
+.topnav .icon {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+    padding-right: 40px;
+    padding-top: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: max-content;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background-color: #b7a37d;
+        z-index: 4;
+        padding-left: 20px;
+    }
+
+    .topnav.responsive .nav-links {
+        display: flex;
+    }
+
+    .topnav .icon {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 5px;
+    }
+
+    .topnav .brand {
+        font-size: 16px;
+        text-align: left;
+    }
+}
+
+.about-section {
+    flex-grow: 1;
+    padding: 100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.about-section p {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+}
+
+footer {
+    background-color: #4b2e83;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    font-family: "Montserrat", sans-serif;
+    width: 100%;
+    position: relative;
+}
+
+.mission {
+    padding-bottom: 75px;
+}
+
+.about-section h1 {
+    color: #4b2e83;
 }

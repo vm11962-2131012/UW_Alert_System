@@ -4,54 +4,51 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>About | UW Alert Mapping System</title>
-        <link rel="icon" type="image/png" href="favicon.png">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <link rel="icon" type="image/x-icon" href="/assets/img/UW_Alert_Favicon.ico">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/main.css">
+    </head>
     </head>
     <body>
 
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand" href="index.html">UW Alert Mapping System</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Map</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
-                    </ul>
-                </div>
+        <div class="topnav" id="myTopnav">
+            <a href="index.html" class="brand">UW Alert Mapping System</a>
+            <div class="nav-links">
+                <a href="index.html">Map</a>
+                <a class="active" href="about.html">About</a>
             </div>
-        </nav>
+            <a href="javascript:void(0);" class="icon">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
 
         <!-- Main Content -->
-        <div class="container content-container">
-            <section class="my-5">
-                <h2 class="text-purple">Our Mission</h2>
+        <div class="about-section">
+            <section class="mission">
+                <h1>Our Mission</h1>
                 <p>
                     The UW Alert Mapping System is dedicated to enhancing public safety and awareness around the University of Washington campus.
                     By providing real-time alerts on crime incidents and emergency responses, we empower students, faculty, and visitors to make informed decisions and navigate the campus safely.
                 </p>
             </section>
 
-            <section class="my-5">
-                <h2 class="text-purple">About the Team</h2>
+            <section class="team">
+                <h1>About the Team</h1>
                 <p>
                     Our team consists of passionate students and developers committed to leveraging technology for public safety.
                     With expertise in geospatial mapping, data visualization, and web development, we built this project to bridge the gap between open data sources and real-time safety awareness.
                 </p>
             </section>
+
+            
         </div>
 
         <!-- Footer -->
-        <footer class="text-white text-center py-3" style="background-color: #4B2E83;">
-            <p>© 2025 UW Alert System. All rights reserved.</p>
+        <footer>
+            <p>2025 UW Alert System</p>
         </footer>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+        <script src="js/about.js"></script>
     </body>
 </html>
 

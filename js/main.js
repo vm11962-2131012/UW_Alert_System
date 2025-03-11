@@ -578,7 +578,7 @@ function closePanelSmall() {
     legend.style.marginLeft = "-425px";
     toggleButton.style.display = "block";
   }
-}
+} 
 
 // changes icon of filter toggle buttons when clicked
 function toggleFilter(button) {

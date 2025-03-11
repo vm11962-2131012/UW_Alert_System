@@ -9,4 +9,4 @@ function responsive_control() {
   } else {
     x.className = "topnav";
   }
-}
+} 

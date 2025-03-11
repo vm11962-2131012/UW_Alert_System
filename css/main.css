@@ -56,7 +56,11 @@ p {
     cursor: unset;
 }
 
-
+/* Ensure About Page Content Starts Below the Fixed Navbar */
+.content-container {
+  margin-top: 50px; /* ✅ Pushes content down below the navbar */
+  padding: 10px;
+}
 
 .sidebar {
   font-family: Arial, sans-serif;
@@ -226,7 +230,7 @@ p {
     border: 1px solid black;
   }
 
-/* NAVBAR STYLES */
+/* Navbar Styles */
 .navbar {
   background-color: #b7a37d !important; /* Gold navbar */
   height: 60px;
@@ -273,40 +277,16 @@ p {
 /* Dropdown Menu Background */
 .navbar-collapse {
   background-color: #b7a37d; /* Matches navbar background */
-  width: 100vw;
+  width: 100%;
   position: absolute;
   top: 60px;
   left: 0;
-  right: 0;
-  transition: height 0.3s ease-in-out;
+  display: none; /* Hide by default */
 }
 
-/* Ensure Menu Expands Down */
+/* Ensure Dropdown Appears */
 .navbar-collapse.show {
-  display: flex;
-  flex-direction: column;
-  /* align-items: center; */
-  width: 100vw;
-  padding: 10px 0;
-}
-
-/* Dropdown Menu Items (No Purple, Just White Text) */
-.navbar-nav .nav-item {
-  display: block;
-  margin: 5px auto;
-}
-
-.navbar-nav .nav-item .nav-link {
-  background: none !important; /* ✅ No background, just text */
-  color: white !important; /* ✅ White text */
-  padding: 8px 15px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-/* Hover Effect for Dropdown Items */
-.navbar-nav .nav-item .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.2) !important; /* Subtle effect */
+  display: block !important; /* ✅ Forces menu to show when expanded */
 }
 
 
@@ -380,23 +360,11 @@ p {
       display: block;
     }
 
-    .navbar-collapse {
-      width: 100vw !important; /* ✅ Prevents gaps */
-      position: absolute;
-      left: 0;
-      right: 0;
-    }
-
-
 
     .navbar-nav {
-      text-align: center;
-      width: 100%;
+      text-align: right;
     }
 
-    .navbar-nav .nav-item {
-      width: 100%;
-    }
 
 
 }

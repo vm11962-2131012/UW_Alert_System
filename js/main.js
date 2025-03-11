@@ -3,12 +3,11 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoidm0xMTk2MiIsImEiOiJjbTFqbDh4OHcwcGQ2MmxvZHR2O
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v11', // style URL
-    zoom: 14, // starting zoom
-    center: [-122.315, 47.658] // starting center
+    zoom: 13.5, // starting zoom
+    center: [-122.32248, 47.65813] // starting center
 });
 
 async function geojsonFetch() {
-
   // fetch UW boundary
   let boundaryResponse = await fetch('assets/uw_boundary.geojson')
   let uwBoundary = await boundaryResponse.json();
@@ -146,7 +145,6 @@ async function geojsonFetch() {
     setInterval(fetch911Data, 300000); // refresh every 5 minutes
 
   })
-
 }
 
 const APP_TOKEN = "j8xvpt9TilXEfJd9DzbQI7Xyg";
@@ -191,7 +189,6 @@ async function fetch911Data() {
     uniquePoints[key] = true;
     return true; // Keep unique points
   });
-
 
   // create 35m buffers around each point using Turf.js
   let bufferFeatures = geojson.features.map(feature =>
@@ -461,7 +458,17 @@ geojsonFetch();
 
 
 // tracks visibility of sidebar - automatically loads with map
-let sidebarState = 'open';
+let sidebarState = 'closed'; // Start with closed instead of open
+
+// Wait for the page to fully load before opening sidebar
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        if (window.innerWidth > 768) {
+            openPanel();
+            sidebarState = 'open';
+        }
+    }, 300); // Small delay to ensure everything is loaded
+});
 
 // function for sidebar toggle buttons to open and close it
 function togglePanel() {
@@ -574,13 +581,52 @@ function closePanelSmall() {
 }
 
 // changes icon of filter toggle buttons when clicked
-function toggleFilter(button, visibility) {
+function toggleFilter(button) {
+  // Get the current button if not provided directly
+  if (!button) button = this;
+  
+  // Get visibility from map if available, or toggle based on current class
+  let visibility;
   const icon = button.querySelector('i');
-  if (visibility === 'visible') {
-    icon.classList.remove('fa-toggle-on');
-    icon.classList.add('fa-toggle-off');
+  
+  if (icon.classList.contains('fa-toggle-on')) {
+      icon.classList.remove('fa-toggle-on');
+      icon.classList.add('fa-toggle-off');
+      visibility = 'visible';
   } else {
-    icon.classList.remove('fa-toggle-off');
-    icon.classList.add('fa-toggle-on');
+      icon.classList.remove('fa-toggle-off');
+      icon.classList.add('fa-toggle-on');
+      visibility = 'none';
+  }
+  
+  return visibility;
+}
+
+// Wait for the DOM to be fully loaded before adding event listeners
+document.addEventListener('DOMContentLoaded', function() {
+  // Get the element with the class "icon"
+  let icon = document.getElementsByClassName("icon")[0];
+
+  // Add an event listener for the 'click' event on the icon element
+  if (icon) {
+      icon.addEventListener('click', responsive_control);
+  } else {
+      console.error("Navigation icon not found!");
+  }
+});
+
+
+// Function to control the responsiveness of the navigation bar
+function responsive_control() {
+  // Get the element with the id "myTopnav"
+  let x = document.getElementById("myTopnav");
+
+  // Check if the class name of the element is "topnav"
+  if (x.className === "topnav") {
+    // If it is, add the "responsive" class to the element
+    x.className += "responsive";
+  } else {
+    // If it's not, remove the "responsive" class from the element
+    x.className = "topnav";
   }
 }

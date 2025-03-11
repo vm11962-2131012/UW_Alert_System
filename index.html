@@ -17,22 +17,17 @@
     </head>
 
     <body>
+            <!-- Navigation bar -->
+        <div class="topnav" id="myTopnav">
+            <!-- Active link pointing to the index.html page -->
+            <a class="active" href="index.html">UW Alert Mapping System</a>
+            <a href="about.html">About </a>
 
-        <!-- ✅ Navbar (Now Stays at the Top) -->
-        <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="index.html">UW Alert Mapping System</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Map</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+            <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links on smaller screens -->
+            <a href="javascript:void(0);" class="icon" onclick="responsive_control()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
 
         <!-- ✅ Fix for Navbar Overlapping Content -->
         <div style="margin-top: 70px;"></div>

@@ -4,8 +4,6 @@ html, body {
   overflow-x: hidden;
 }
 
-
-
 h2, h3 {
     margin: 10px;
     font-size: 18px;
@@ -221,7 +219,6 @@ p {
   color: white
 }
 
-
 .emergency-call {
     width: 14px;
     height: 14px;
@@ -230,65 +227,45 @@ p {
     border: 1px solid black;
   }
 
-/* Navbar Styles */
-.navbar {
-  background-color: #b7a37d !important; /* Gold navbar */
-  height: 60px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  padding-left: 0; /* Remove default padding */
-}
-
-/* Move Navbar Brand (Title) Further to the Left */
-.navbar .container {
-  padding-left: 0 !important; /* Remove Bootstrap's default padding */
-  margin-left: 0 !important; /* Ensure it's aligned to the edge */
-  max-width: 100%; /* Ensure full width */
-}
-
-.navbar-brand {
-  font-weight: bold;
-  color: white !important;
-  margin-left: 10px; /* Adjust left spacing */
-  padding-left: 5px;
-}
-
-/* Align Navbar Links (Map & About) to the Right */
-.navbar-nav {
-  margin-left: auto;
-  padding-right: 20px; /* Shift Map & About to the right */
-}
-
-/* Navbar Link Styling */
-.navbar-nav .nav-link {
-  color: white !important;
-  font-size: 18px;
-  padding: 10px 15px;
-}
-
-.navbar-nav .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
-}
-
-/* Dropdown Menu Background */
-.navbar-collapse {
-  background-color: #b7a37d; /* Matches navbar background */
-  width: 100%;
-  position: absolute;
-  top: 60px;
-  left: 0;
-  display: none; /* Hide by default */
-}
-
-/* Ensure Dropdown Appears */
-.navbar-collapse.show {
-  display: block !important; /* ✅ Forces menu to show when expanded */
-}
-
+/* Top Navbar Styles */
+.topnav {
+    background: #b7a37d;
+    color:#ffffff;
+    overflow: hidden;
+    height: 60px;
+    position: fixed; 
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  /* Style the links inside the navigation bar */
+  .topnav a {
+    float: left;
+    display: block;
+    color: #e0e0e0;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 26px;
+  }
+  
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    background-color: #83755a;
+    color:#fafbff;
+  }
+  
+  /* Hide the icon that should open and close the topnav on small screens */
+  .topnav .icon {
+    display: none;
+  }
+  
+  /* Style for page content */
+  .content {
+    padding: 14px;
+    font-size: 22px;
+  }
 
 /* For screens 768px or smaller (Tablet size) */
 @media screen and (max-width: 768px) {
@@ -356,17 +333,16 @@ p {
         font-size: 20px;
     }
 
-    .navbar-toggler {
-      display: block;
-    }
-
-
-    .navbar-nav {
-      text-align: right;
-    }
-
-
-
+    .topnav a:not(.active) {
+        display: none;
+      }
+    
+      /* Show the icon that should open and close the topnav */
+      .topnav a.icon {
+        float: right;
+        display: block;
+      }
+    
 }
 
 /* For screens 480px or smaller (Mobile size) */
@@ -421,4 +397,57 @@ p {
     .sidebar p {
         font-size: 11px;
     }
+    
+    .topnav.responsive {
+        position: relative;
+      }
+    
+      .topnav.responsive a.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    
+      .topnav.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+      }
+    }
+    
+    /*  columns side by side */
+    .column {
+      float: left;
+      width: 33.3%;
+      margin-bottom: 16px;
+      padding: 0 8px;
+    }
+    
+    /* Display the columns below each other instead of side by side on small screens */
+      .column {
+        width: 100%;
+        display: block;
+      }
+  
+    
+    /* Add some shadows to create a card effect */
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Some left and right padding inside the container */
+    .container {
+      padding: 0 16px;
+    }
+    
+    /* Clear floats */
+    .container::after, .row::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+    
+    .title {
+      color: grey;
+    
 }

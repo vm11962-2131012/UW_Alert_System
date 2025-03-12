@@ -76,11 +76,12 @@ async function geojsonFetch() {
               'circle-color': [
                   'match',
                   ['get', 'Offense Parent Group'],
-                  'MOTOR VEHICLE THEFT', 'rgb(42, 0, 76)',
-                  'LARCENY-THEFT', 'rgb(69, 9, 132)',
-                  'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', 'rgb(106, 55, 145)',
-                  'FRAUD OFFENSES','rgb(134, 103, 154)',
+                  'FRAUD OFFENSES','rgb(42, 0, 76)',
+                  'MOTOR VEHICLE THEFT', 'rgb(69, 9, 132)',
+                  'LARCENY-THEFT', 'rgb(106, 55, 145)',
+                  'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', 'rgb(134, 103, 154)',
                   'rgb(187, 150, 246)' // default color
+
                 ],
         }
     });
@@ -411,10 +412,10 @@ function createSPDLegend() {
   const spdLegendContent = `
     <div class="legend-section">
       <h3>SPD Crime Data</h3>
-      <div class="legend-item"><span class="legend-key" style="background-color:rgb(42, 0, 76);"></span><span>Motor Vehicle Theft</span></div>
-      <div class="legend-item"><span class="legend-key" style="background-color:rgb(69, 9, 132);"></span><span>Larceny-Theft</span></div>
-      <div class="legend-item"><span class="legend-key" style="background-color:rgb(106, 55, 145);"></span><span>Destruction / Damage <br>/ Vandalism</span></div>
-      <div class="legend-item"><span class="legend-key" style="background-color:rgb(142, 107, 164);"></span><span>Fraud Offenses</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(42, 0, 76);"></span><span>Fraud Offenses</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(69, 9, 132);"></span><span>Motor Vehicle Theft</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(106, 55, 145);"></span><span>Larceny-Theft</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(142, 107, 164);"></span><span>Destruction / Damage <br>/ Vandalism</span></div>
       <div class="legend-item"><span class="legend-key" style="background-color:rgb(187, 150, 246);"></span><span>Other</span></div>
     </div>
   `;

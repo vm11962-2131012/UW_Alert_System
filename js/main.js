@@ -149,36 +149,50 @@ async function geojsonFetch() {
 
 const APP_TOKEN = "j8xvpt9TilXEfJd9DzbQI7Xyg";
 
-// Function to fetch high threat 911 emergency data
+const FIRE_911_API = `https://data.seattle.gov/resource/kzjm-xkqj.geojson?$query=
+                  SELECT%20*%20
+                  WHERE%20(
+                    UPPER(type)%20LIKE%20%27%25FIRE%25%27%20
+                    OR%20UPPER(type)%20LIKE%20%27%25VIOLENCE%25%27%20
+                    OR%20UPPER(type)%20LIKE%20%27%25VEHICLE%25%27
+                    OR%20UPPER(type)%20LIKE%20%27%25MVI%25%27
+                    OR%20UPPER(type)%20LIKE%20%27%25GAS%20LEAK%25%27
+                  )
+                  AND%20(
+                    UPPER(type)%20NOT%20LIKE%20%27%25AUTO%20FIRE%20ALARM%25%27
+                    AND%20UPPER(type)%20NOT%20LIKE%20%27%25AUTOMATIC%20FIRE%20ALARM%25%27
+                    AND%20UPPER(type)%20NOT%20LIKE%20%27%25FIRE%20ALARM%25%27
+                    AND%20UPPER(type)%20NOT%20LIKE%20%27%25ALARM%25%27
+                  )
+                  ORDER%20BY%20datetime%20DESC%20
+                  LIMIT%201000%20&$$app_token=${APP_TOKEN}`;
+
+
+
+
 async function fetch911Data() {
   console.log("Fetching latest 911 data...");
 
-  const apiURL = `https://data.seattle.gov/resource/33kz-ixgy.geojson?$query=
-                  SELECT%20*%20
-                  WHERE%20final_call_type%20LIKE%20%27%25ASSAULT%25%27%20
-                  OR%20final_call_type%20LIKE%20%27%25SHOOTING%25%27%20
-                  OR%20final_call_type%20LIKE%20%27%25ROBBERY%25%27%20
-                  OR%20final_call_type%20LIKE%20%27%25FIRE%25%27%20
-                  OR%20final_call_type%20LIKE%20%27%25BOMB%25%27%20
-                  ORDER%20BY%20cad_event_original_time_queued%20DESC%20
-                  LIMIT%201000%20&$$app_token=${APP_TOKEN}`;
-
-  let response = await fetch(apiURL);
+  let response = await fetch(FIRE_911_API);
   let geojson = await response.json();
 
-  // Filter out features with null geometry and reconstruct missing ones
+  console.log("Received 911 data:", geojson);
+
+  if (!geojson.features || geojson.features.length === 0) {
+    console.error("No features found in 911 data!");
+    return;
+  }
+
+  // Filter out features with null geometry
   geojson.features = geojson.features
-  .filter(feature => feature.properties.dispatch_longitude && feature.properties.dispatch_latitude)
-  .map(feature => ({
-    ...feature,
-    geometry: {
-      type: "Point",
-      coordinates: [
-        parseFloat(feature.properties.dispatch_longitude),
-        parseFloat(feature.properties.dispatch_latitude)
-      ]
-    }
-  }));
+    .filter(feature => feature.geometry && feature.geometry.coordinates)
+    .map(feature => ({
+      ...feature,
+      geometry: {
+        type: "Point",
+        coordinates: feature.geometry.coordinates
+      }
+    }));
 
   let uniquePoints = {};
   geojson.features = geojson.features.filter(feature => {
@@ -190,15 +204,15 @@ async function fetch911Data() {
     return true; // Keep unique points
   });
 
-  // create 35m buffers around each point using Turf.js
+  // Create 35m buffers around each point using Turf.js
   let bufferFeatures = geojson.features.map(feature =>
-    turf.buffer(feature, 35, { units: "meters" }) // 35m
+    turf.buffer(feature, 35, { units: "meters" }) // 35m buffer
   );
 
   // Merge all buffers into a single feature collection
   let bufferGeoJSON = turf.featureCollection(bufferFeatures);
 
-  // Add buffer layer first (to keep it below points)
+  // Update or add buffer source
   if (map.getSource("911-buffers")) {
     map.getSource("911-buffers").setData(bufferGeoJSON);
   } else {
@@ -211,14 +225,13 @@ async function fetch911Data() {
       layout: {},
       paint: {
         "fill-color": "#FFCC00", // Warning Yellow for Danger Zones
-        "fill-opacity": 0.30, // Lower opacity to make points clickable
+        "fill-opacity": 0.30,
         "fill-outline-color": "#FF9900" // Orange outline for visibility
       }
     });
   }
 
-
-  // Add 911 call points to the map
+  // Update or add the 911 call points to the map
   if (map.getSource("911-data")) {
     map.getSource("911-data").setData(geojson);
   } else {
@@ -230,59 +243,61 @@ async function fetch911Data() {
       source: "911-data",
       paint: {
         "circle-radius": 2,
-        "circle-color": "#FF4500", // Orange-Red for High-Risk Calls
+        "circle-color": "#FF4500", // Orange-Red for Fire Calls
         "circle-opacity": 0.9,
         "circle-stroke-width": 1.5,
-        "circle-stroke-color": "#8B0000" // Dark Red Outline
+        "circle-stroke-color": "#8B0000"
       }
     });
+
+    console.log("✅ 911 data added to the map.");
 
     create911Legend();
   }
 
-      // similar function for 911 data
-      map.on('click', '911-points', (e) => {
-        if (e.features.length > 0) {
-          const feature = e.features[0];
-          const coordinates = feature.geometry.coordinates.slice();
+  // Add popups for 911 incidents
+  map.on("click", "911-points", (e) => {
+    if (e.features.length > 0) {
+      const feature = e.features[0];
+      const coordinates = feature.geometry.coordinates.slice();
 
-          // 911 popup content properties
-          const popupContent = `
-              <h3 style="margin-bottom: 10px; color: #333;">911 Report Details</h3>
-              <table style="width: 100%; border-collapse: separate; border-spacing: 0 5px;">
-                <tr>
-                  <td><strong>Date/Time:</strong></td>
-                  <td>${feature.properties['cad_event_original_time_queued'] || 'N/A'}</td>
-                </tr>
-                <tr>
-                  <td><strong>Incident Type:</strong></td>
-                  <td>${feature.properties['final_call_type'] || 'N/A'}</td>
-                </tr>
-                <tr>
-                  <td><strong>Dispatch Neighborhood:</strong></td>
-                  <td>${feature.properties['dispatch_neighborhood'] || 'N/A'}</td>
-                </tr>
-              </table>
-            </div>
-          `;
+      // Create popup content
+      const popupContent = `
+          <h3 style="margin-bottom: 10px; color: #333;">911 Report Details</h3>
+          <table style="width: 100%; border-collapse: separate; border-spacing: 0 5px;">
+            <tr>
+              <td><strong>Date/Time:</strong></td>
+              <td>${feature.properties.datetime || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td><strong>Incident Type:</strong></td>
+              <td>${feature.properties.type || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td><strong>Address:</strong></td>
+              <td>${feature.properties.address || 'N/A'}</td>
+            </tr>
+          </table>
+        </div>
+      `;
 
-          new mapboxgl.Popup({ offset: [0, -7] })
-            .setLngLat(coordinates)
-            .setHTML(popupContent)
-            .addTo(map);
-        }
-      });
+      new mapboxgl.Popup({ offset: [0, -7] })
+        .setLngLat(coordinates)
+        .setHTML(popupContent)
+        .addTo(map);
+    }
+  });
 
-      // cursor change on hover for 911 data
-      map.on('mouseenter', '911-points', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
+  // Change cursor on hover for 911 data
+  map.on("mouseenter", "911-points", () => {
+    map.getCanvas().style.cursor = "pointer";
+  });
 
-      map.on('mouseleave', '911-points', () => {
-        map.getCanvas().style.cursor = '';
-      });
-
+  map.on("mouseleave", "911-points", () => {
+    map.getCanvas().style.cursor = "";
+  });
 }
+
 
 let startMarker, endMarker;
 let navigationActive = false;
@@ -416,7 +431,7 @@ function create911Legend() {
     <div class="legend-section">
       <h3>Live 911 Calls</h3>
       <div class="legend-item">
-        <span class="legend-key emergency-call"></span>
+        <span class="legend-key emergency-call" style="background-color:#FF4500;"></span>
         <span>Emergency Calls</span>
       </div>
     </div>
@@ -578,17 +593,17 @@ function closePanelSmall() {
     legend.style.marginLeft = "-425px";
     toggleButton.style.display = "block";
   }
-} 
+}
 
 // changes icon of filter toggle buttons when clicked
 function toggleFilter(button) {
   // Get the current button if not provided directly
   if (!button) button = this;
-  
+
   // Get visibility from map if available, or toggle based on current class
   let visibility;
   const icon = button.querySelector('i');
-  
+
   if (icon.classList.contains('fa-toggle-on')) {
       icon.classList.remove('fa-toggle-on');
       icon.classList.add('fa-toggle-off');
@@ -598,7 +613,7 @@ function toggleFilter(button) {
       icon.classList.add('fa-toggle-on');
       visibility = 'none';
   }
-  
+
   return visibility;
 }
 

@@ -1,5 +1,7 @@
+/* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap');
 
+/* Reset default margins and prevent horizontal scrolling */
 html,
 body {
     margin: 0;
@@ -8,32 +10,39 @@ body {
     height: 100%;
 }
 
+/* Use flexbox to structure the page layout */
 body {
     display: flex;
     flex-direction: column;
 }
 
+/* Set fonts for headings */
 h1,
 h2 {
     font-family: "Quicksand", sans-serif;
     font-weight: 600;
 }
 
+/* Define margin and font sizes for headings */
 h2,
+
+
 h3 {
     margin: 10px;
     font-size: 18px;
 }
-
+/* delate? */
 h3 {
     font-size: 16px;
 }
 
+/* Default margin for paragraphs */
 p {
     margin: 10px;
 }
 
 
+/* Fullscreen interactive map */
 #map {
     width: 100% !important;
     height: 100vh;
@@ -43,6 +52,7 @@ p {
     z-index: 0;
 }
 
+/* Style for map overlay elements like legend and filters */
 .map-overlay {
     position: absolute;
     bottom: 0;
@@ -57,11 +67,13 @@ p {
     border-radius: 3px;
 }
 
+/* Reset cursor style for interactive map area and compass button */
 .mapboxgl-canvas-container.mapboxgl-interactive,
 .mapboxgl-ctrl-group button.mapboxgl-ctrl-compass {
     cursor: unset;
 }
 
+/* Sidebar containing map controls and information */
 .sidebar {
     font-family: "Montserrat", sans-serif;
     height: 100%;
@@ -78,6 +90,7 @@ p {
     flex-direction: column;
 }
 
+/* Style for text inside the sidebar */
 .sidebar h1,
 .sidebar h2,
 .sidebar p,
@@ -89,7 +102,7 @@ p {
 }
 
 
-
+/* Close button for the sidebar */
 .closebtn {
     position: absolute;
     top: 10px;
@@ -102,6 +115,7 @@ p {
     transition: color 0.3s;
 }
 
+/* Button to open the sidebar */
 .openbtn {
     font-size: 32px;
     cursor: pointer;
@@ -115,11 +129,13 @@ p {
     transition: color 0.3s;
 }
 
+/* Hover effect for buttons */
 .openbtn:hover {
     color: white;
     text-shadow: 0 0 2px #85754d, 0 0 5px #85754d, 0 0 10px #85754d, 0 0 15px #e8e3d3;
 }
 
+/* Smooth transition effect when the sidebar opens/closes */
 #main,
 #features,
 #map {
@@ -145,6 +161,7 @@ p {
     transition: margin-left .5s;
 }
 
+/* Title for legend */
 .legend-title {
     font-weight: bold;
     margin-bottom: 10px;
@@ -153,10 +170,12 @@ p {
     padding-bottom: 5px;
 }
 
+/* Legend item style */
 .legend-section {
     margin-bottom: 15px;
 }
 
+/* Add spacing below section titles and ark gray text for readability */
 .legend-section h3 {
     margin: 0 0 8px 0;
     font-size: 14px;
@@ -164,12 +183,14 @@ p {
     color: #333;
 }
 
+/* Each legend item is a row with a label and a color indicator */
 .legend-item {
     display: flex;
     align-items: center;
     margin-bottom: 8px;
 }
 
+/* Color indicator for legend items */
 .legend-key {
     display: inline-block;
     width: 12px;
@@ -179,6 +200,7 @@ p {
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+/* Buttons for toggling filters (e.g., crime data, 911 calls) */
 .filter-toggles button {
     font-size: 28px;
     background: none;
@@ -188,11 +210,13 @@ p {
     cursor: pointer;
 }
 
+/* Change color on hover for better UX */
 .filter-toggles button:hover,
 .closebtn:hover {
     color: #e8e3d3;
 }
 
+/* Button to trigger navigation mode */
 #navigateMe {
     position: absolute;
     top: 80px;
@@ -209,10 +233,12 @@ p {
     transition: box-shadow 0.2s ease-in-out;
 }
 
+/* Glow effect on hover to highlight button */
 #navigateMe:hover {
     box-shadow: 0 0 2px #85754d, 0 0 5px #85754d, 0 0 7px #85754d, 0 0 15px #e8e3d3;
 }
 
+/* Panel for displaying navigation instructions */
 #instructions {
     position: absolute;
     right: 0px;
@@ -227,14 +253,18 @@ p {
     display: none;
 }
 
+/* Make instruction list text white for contrast */
 #instructions li {
     color: white;
 }
 
-#instruction p {
-    color: white
-}
+/* delate? */
 
+/* #instruction p {
+    color: white
+} */
+
+/* delate? */
 .emergency-call {
     width: 14px;
     height: 14px;
@@ -405,6 +435,7 @@ p {
       }
     }
     
+    /* delate? */
     /*  columns side by side */
     .column {
       float: left;
@@ -412,36 +443,39 @@ p {
       margin-bottom: 16px;
       padding: 0 8px;
     }
-    
+    /* delate? */
     /* Display the columns below each other instead of side by side on small screens */
       .column {
         width: 100%;
         display: block;
       }
   
-    
+    /* delate? */
     /* Add some shadows to create a card effect */
     .card {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     }
     
+    /* delate? */
     /* Some left and right padding inside the container */
     .container {
       padding: 0 16px;
     }
     
+    /* delate? */
     /* Clear floats */
     .container::after, .row::after {
       content: "";
       clear: both;
       display: table;
     }
-    
+    /* delate? */
     .title {
       color: grey;
     
 }
 
+/* Top navigation bar */
 .topnav {
     background-color: #b7a37d;
     display: flex;
@@ -456,6 +490,7 @@ p {
     height: 60px;
 }
 
+/* Brand title in navigation bar */
 .topnav .brand {
     font-size: 24px;
     font-weight: bold;
@@ -466,6 +501,7 @@ p {
     font-weight: 500;
 }
 
+/* Navigation links */
 .nav-links {
     display: flex;
     margin-left: auto;
@@ -486,6 +522,7 @@ p {
     text-shadow: 0 0 5px #e8e3d3, 0 0 10px #85754d, 0 0 15px #4b2e83, 0 0 20px #85754d;
 }
 
+/* Style for navigation links */
 .nav-links a {
     display: block;
     color: white;
@@ -497,6 +534,7 @@ p {
     font-size: 18px;
 }
 
+/* Responsive menu button */
 .topnav .icon {
     display: none;
     cursor: pointer;
@@ -561,6 +599,7 @@ footer {
     position: relative;
 }
 
+/* delate? */
 .mission, .team {
     padding-bottom: 20px;
 }

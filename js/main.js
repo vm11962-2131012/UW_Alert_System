@@ -398,8 +398,8 @@ function createSPDLegend() {
       <h3>SPD Crime Data</h3>
       <div class="legend-item"><span class="legend-key" style="background-color:rgb(42, 0, 76);"></span><span>Motor Vehicle Theft</span></div>
       <div class="legend-item"><span class="legend-key" style="background-color:rgb(69, 9, 132);"></span><span>Larceny-Theft</span></div>
-      <div class="legend-item"><span class="legend-key" style="background-color:rgb(106, 55, 145);"></span><span>Destruction / Damage / Vandalism</span></div>
-      <div class="legend-item"><span class="legend-key" style="background-color:rgb(134, 103, 154);"></span><span>Fraud Offenses</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(106, 55, 145);"></span><span>Destruction / Damage <br>/ Vandalism</span></div>
+      <div class="legend-item"><span class="legend-key" style="background-color:rgb(142, 107, 164);"></span><span>Fraud Offenses</span></div>
       <div class="legend-item"><span class="legend-key" style="background-color:rgb(187, 150, 246);"></span><span>Other</span></div>
     </div>
   `;
@@ -458,7 +458,7 @@ geojsonFetch();
 
 
 // tracks visibility of sidebar - automatically loads with map
-let sidebarState = 'closed'; // Start with closed instead of open
+let sidebarState = 'open';
 
 // Wait for the page to fully load before opening sidebar
 window.addEventListener('load', function() {
@@ -614,22 +614,6 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error("Navigation icon not found!");
   }
 });
-
-
-// Function to control the responsiveness of the navigation bar
-function responsive_control() {
-  // Get the element with the id "myTopnav"
-  let x = document.getElementById("myTopnav");
-
-  // Check if the class name of the element is "topnav"
-  if (x.className === "topnav") {
-    // If it is, add the "responsive" class to the element
-    x.className += "responsive";
-  } else {
-    // If it's not, remove the "responsive" class from the element
-    x.className = "topnav";
-  }
-}
 
 let icon = document.getElementsByClassName("icon")[0];
 

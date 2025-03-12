@@ -99,6 +99,7 @@ p {
     background: none;
     border: none;
     cursor: pointer;
+    transition: color 0.3s;
 }
 
 .openbtn {
@@ -139,7 +140,7 @@ p {
     overflow-y: auto;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     font-family: "Montserrat", sans-serif;
-    max-width: 200px;
+    max-width: 300px;
     z-index: 2;
     transition: margin-left .5s;
 }
@@ -205,15 +206,20 @@ p {
     border-radius: 5px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
     font-family: "Montserrat", sans-serif;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+#navigateMe:hover {
+    box-shadow: 0 0 2px #85754d, 0 0 5px #85754d, 0 0 7px #85754d, 0 0 15px #e8e3d3;
 }
 
 #instructions {
     position: absolute;
-    right: 10px;
+    right: 0px;
     top: 150px;
     width: 25vw;
     max-height: 80vh;
-    background: #4b2e83;
+    background: #85754d;
     padding: 15px;
     overflow-y: auto;
     font-family: "Montserrat", sans-serif;
@@ -324,7 +330,7 @@ p {
 /* For screens 480px or smaller (Mobile size) */
 @media screen and (max-width: 480px) {
     #legend {
-        max-width: 125px;
+        max-width: 150px;
         padding: 4px;
         font-size: 10px;
         margin-left: -265px;
@@ -461,6 +467,20 @@ p {
     padding-right: 50px;
 }
 
+.topnav .brand, 
+.nav-links a, 
+.topnav .icon {
+    transition: text-shadow 0.2s ease-in-out;
+}
+
+.topnav .brand:hover, .nav-links a:hover, .topnav .icon:hover {
+    text-shadow: 0 0 5px #4b2e83, 0 0 10px #85754d, 0 0 15px #e8e3d3, 0 0 20px #e8e3d3;
+}
+
+.topnav .active{
+    text-shadow: 0 0 5px #e8e3d3, 0 0 10px #85754d, 0 0 15px #4b2e83, 0 0 20px #85754d;
+}
+
 .nav-links a {
     display: block;
     color: white;
@@ -468,6 +488,7 @@ p {
     padding: 10px 15px;
     text-decoration: none;
     font-family: "Montserrat", sans-serif;
+    font-weight: 450;
     font-size: 18px;
 }
 

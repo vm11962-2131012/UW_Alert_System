@@ -322,8 +322,13 @@ p {
         font-size: 16px !important;
     }
 
+    .about-section a {
+        font-size: 14px !important;
+    }
+
     .about-section {
         padding: 50px !important;
+        margin-top: 50px !important;
     }
 }
 
@@ -534,10 +539,11 @@ p {
 .about-section {
     flex-grow: 1;
     padding: 100px;
+    padding-bottom: 25px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 .about-section p {
@@ -555,10 +561,14 @@ footer {
     position: relative;
 }
 
-.mission {
-    padding-bottom: 75px;
+.mission, .team {
+    padding-bottom: 20px;
 }
 
 .about-section h1 {
     color: #4b2e83;
+}
+
+.about-section a {
+    font-size: 18px;
 }

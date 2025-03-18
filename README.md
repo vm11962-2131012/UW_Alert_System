@@ -8,12 +8,12 @@ The **UW Alert System** is an interactive web application designed to provide st
 
 The web application gathers and visualizes **crime trends, emergency response activity, and public safety alerts** using an interactive mapping interface. Users can explore:  
 - **Live emergency 911 call reports**, updated frequently to reflect ongoing incidents.  
-- **Historical crime data**, allowing trend analysis and hotspot identification.  
+- **Past crime data**, allowing trend analysis and hotspot identification.  
 - **Campus infrastructure and navigation details**, including **buildings, footpaths, and bike lanes** to aid in safe travel planning.  
 
 To ensure **data accuracy and reliability**, the system utilizes and **processes** information from multiple trusted sources:  
-- **Seattle Open Data Portal** – Historical crime reports and law enforcement data.  
-- **Seattle 911 Call Data API** – Live emergency response reports filtered by incident type.  
+- **Seattle Open Data Portal** – Past crime reports and law enforcement data.  
+- **Seattle 911 Call Data Via API** – Live emergency response reports filtered by incident type.  
 - **OpenStreetMap (OSM)** – Detailed geographic and infrastructure data for the UW campus.  
 
 By offering **a centralized safety awareness platform**, the UW Alert System equips students, faculty, and residents with a **real-time situational awareness tool**, fostering a **safer and more informed campus community**.  
@@ -35,8 +35,8 @@ As **students at the University of Washington**, we often receive **crime alert 
 
 ### **Motivation Behind the Project**  
 Through our personal experiences, we noticed **several challenges** with the UW Crime Alerts and emergency alerts are distributed:  
-- **Emails alone are not an effective way to track ongoing threats.** There is no easy way to **visualize where crime is happening over time**. These notifacations can be sent almost a day after the incident has occured, which is unhelpful if someone has already traveled through that area and could had been at risk.  
-- **Crime awareness should be dynamic**, allowing users to visualize and focus on **specific incident types or areas** of concern.  
+- **Emails or texts alone are not an effective way to track ongoing threats.** There is no easy way to **visualize where crime is happening over time**. These notifacations can be sent almost a day after the incident has occured, which is unhelpful if someone has already traveled through that area and could had been at risk.  
+- **Crime and incident awareness should be dynamic**, allowing users to visualize and focus on **specific incident types or areas** of concern.  
 - **Proactive navigation is needed** – Knowing where crime is occurring allows users to **adjust their travel routes for safety**. The reports being sent can be cofusing since it all comes in the form of text, requiring people who view them to know the exact street that the incident occured or have to look the location up.
 
 ### **How This Project Improves Safety**  
@@ -55,11 +55,11 @@ Through our personal experiences, we noticed **several challenges** with the UW 
 ## Screenshots  
 
 ### **Main Interface**  
-![Main Screen](assets/img/Main_Map.png)  
-![Main Screen After Clicking Side Panel and a Crime Point](assets/img/Main_Panel.png)  
+![Main Screen](assets/img/Main_Panel.png)  
+![Main Screen After Clicking Side Panel and a Crime Point](assets/img/Main_Map.png)  
 
 ### **Live 911 Emergency Calls**  
-![Toggling On Only 911 Energency Calls](assets/img/911.png)  
+![Toggling On Only 911 Emergency Calls](assets/img/911.png)  
 
 ### **Seattle Police Department Crime Data**  
 ![Toggling On Only SPD Crime Data](assets/img/SPD.png)  
@@ -72,13 +72,13 @@ Through our personal experiences, we noticed **several challenges** with the UW 
 
 ## **Main Functions & Features**  
 
-### ** Live 911 Crime Data **
+### ** Past Crime Data **
 - Displays **Seattle Police Department (SPD) crime data** from the past year.
 - Provides detailed information on crime reports, including **date, time, type, and location**.
 - Uses **color-coded markers** to distinguish different crime types.
 
 ### ** Live 911 Emergency Alerts **
-- Fetches **live 911 call data** for high-risk incidents (e.g., Assaults, Shootings, Robberies, Fires, Bomb Threats).
+- Fetches **live 911 call data** for high-risk incidents (e.g., Assaults, Shootings, Robberies, Fires, Bomb Threats) from the **Seattle Fire Department (SFD)**.
 - Displays **danger zone buffers (35 meters)** around emergency locations to indicate potential risk zones.
 - **Filters duplicate reports** and maintains real-time updates every 5 minutes.
 
@@ -88,11 +88,11 @@ Through our personal experiences, we noticed **several challenges** with the UW 
 - Displays **turn-by-turn instructions** for navigation.
 - Alerts users when a route passes through high-risk areas.
 
-### ** University Campus Map Integration**  
+### ** University Campus Map Integration **  
 - Detailed **campus buildings, footpaths, and bike lanes** aid in better navigation.  
 - Data sourced from **OpenStreetMap (OSM) and Overpass Turbo**.  
 
-### ** Interactive UI with Filtering Options**  
+### ** Interactive UI with Filtering Options **  
 - Users can **toggle data layers** for:  
   - **911 Emergency Calls**  
   - **SPD Crime Reports**  
@@ -104,12 +104,12 @@ Through our personal experiences, we noticed **several challenges** with the UW 
 ## **Data Sources & Processing**  
 
 ### **Seattle Police Department (SPD) Crime Data**
-- **Source:** SPD Open Data Portal
+- **Source:** [Seattle Open Data Portal](https://data.seattle.gov/Public-Safety/SPD-Crime-Data-2008-Present/tazs-3rd5/about_data)
 - **File:** clean_spd_crime_df.geojson
 - **Data:** Includes various crime categories such as **theft, vandalism, fraud, and motor vehicle theft**.
 
-### **Live 911 Emergency Call Data**
-- **Source:** Seattle Open Data API (https://data.seattle.gov/resource/33kz-ixgy.geojson)
+### **Live Seattle Fire Department (SFD) 911 Emergency Call Data**
+- **Source:** [Seattle Open Data Portal](https://data.seattle.gov/Public-Safety/Seattle-Real-Time-Fire-911-Calls/kzjm-xkqj/about_data)
 - **Data Processing:** Filters high-priority incidents and maps them with real-time updates.
 - **Buffer Zones:** 35m radius around emergency locations using **Turf.js**.
 
@@ -158,7 +158,7 @@ We used **GitHub Copilot & ChatGPT** for:
 ---
 
 ## **Additional Notes**  
-- This project is **open-source** and welcomes contributions.  
+- This project is **open-source**.  
 - **Data Limitations:** Emergency updates are **real-time** but may experience slight reporting delays.  
 - Always verify urgent incidents through **official UW safety channels**.  
 

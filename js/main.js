@@ -1,10 +1,10 @@
 // initialize mapbox map
 mapboxgl.accessToken = 'pk.eyJ1Ijoidm0xMTk2MiIsImEiOiJjbTFqbDh4OHcwcGQ2MmxvZHR2OXUyam10In0.TLBFscEgQpdhpSFtM62UHw';
 const map = new mapboxgl.Map({
-    container: 'map', // container ID
-    style: 'mapbox://styles/mapbox/light-v11', // style URL
-    zoom: 13.5, // starting zoom
-    center: [-122.32248, 47.65813] // starting center
+  container: 'map', // container ID
+  style: 'mapbox://styles/mapbox/light-v11', // style URL
+  zoom: 13.5, // starting zoom
+  center: [-122.32248, 47.65813] // starting center
 });
 
 async function geojsonFetch() {
@@ -40,7 +40,7 @@ async function geojsonFetch() {
       'type': 'fill',
       'source': 'osm-campus',
       'paint': {
-          'fill-color': '#e8e3d3'
+        'fill-color': '#e8e3d3'
       }
     }, firstLabelLayerId);
 
@@ -56,8 +56,8 @@ async function geojsonFetch() {
       'type': 'line',
       'source': 'uw-campus',
       'paint': {
-          'line-color': '#85754d', // Husky Gold
-          'line-width': 3
+        'line-color': '#85754d', // Husky Gold
+        'line-width': 3
       }
     });
 
@@ -68,38 +68,38 @@ async function geojsonFetch() {
     });
 
     map.addLayer({
-        'id': 'places-layer',
-        'type': 'circle',
-        'source': 'places',
-        'paint': {
-              'circle-radius': 6,
-              'circle-color': [
-                  'match',
-                  ['get', 'Offense Parent Group'],
-                  'FRAUD OFFENSES','rgb(42, 0, 76)',
-                  'MOTOR VEHICLE THEFT', 'rgb(69, 9, 132)',
-                  'LARCENY-THEFT', 'rgb(106, 55, 145)',
-                  'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', 'rgb(134, 103, 154)',
-                  'rgb(187, 150, 246)' // default color
+      'id': 'places-layer',
+      'type': 'circle',
+      'source': 'places',
+      'paint': {
+        'circle-radius': 6,
+        'circle-color': [
+          'match',
+          ['get', 'Offense Parent Group'],
+          'FRAUD OFFENSES', 'rgb(42, 0, 76)',
+          'MOTOR VEHICLE THEFT', 'rgb(69, 9, 132)',
+          'LARCENY-THEFT', 'rgb(106, 55, 145)',
+          'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', 'rgb(134, 103, 154)',
+          'rgb(187, 150, 246)' // default color
 
-                ],
-        }
+        ],
+      }
     });
 
     initLegend();
     createSPDLegend();
     document.getElementById('legend').style.display = 'block'; // Display the legend
 
-      // pop-up layers
-      map.on('click', 'places-layer', (e) => {
-        if (e.features.length > 0) {
-          const feature = e.features[0];
-          const coordinates = feature.geometry.coordinates.slice();
+    // pop-up layers
+    map.on('click', 'places-layer', (e) => {
+      if (e.features.length > 0) {
+        const feature = e.features[0];
+        const coordinates = feature.geometry.coordinates.slice();
 
-          let dateTimeStr = feature.properties['Report DateTime'] || 'N/A';
+        let dateTimeStr = feature.properties['Report DateTime'] || 'N/A';
 
-          // spd pop-up content properties
-          const popupContent = `
+        // spd pop-up content properties
+        const popupContent = `
               <h3 style="margin-bottom: 10px; color: #333;">Crime Report Details</h3>
               <table style="width: 100%; border-collapse: separate; border-spacing: 0 5px;">
                 <tr>
@@ -122,12 +122,14 @@ async function geojsonFetch() {
             </div>
           `;
 
-          new mapboxgl.Popup({ offset: [0, -7] })
-            .setLngLat(coordinates)
-            .setHTML(popupContent)
-            .addTo(map);
-        }
-      });
+        new mapboxgl.Popup({
+            offset: [0, -7]
+          })
+          .setLngLat(coordinates)
+          .setHTML(popupContent)
+          .addTo(map);
+      }
+    });
 
     // cursor change on hover for crime data
     map.on('mouseenter', 'places-layer', () => {
@@ -207,7 +209,9 @@ async function fetch911Data() {
 
   // Create 35m buffers around each point using Turf.js
   let bufferFeatures = geojson.features.map(feature =>
-    turf.buffer(feature, 35, { units: "meters" }) // 35m buffer
+    turf.buffer(feature, 35, {
+      units: "meters"
+    }) // 35m buffer
   );
 
   // Merge all buffers into a single feature collection
@@ -217,7 +221,10 @@ async function fetch911Data() {
   if (map.getSource("911-buffers")) {
     map.getSource("911-buffers").setData(bufferGeoJSON);
   } else {
-    map.addSource("911-buffers", { type: "geojson", data: bufferGeoJSON });
+    map.addSource("911-buffers", {
+      type: "geojson",
+      data: bufferGeoJSON
+    });
 
     map.addLayer({
       id: "911-buffer-layer",
@@ -236,7 +243,10 @@ async function fetch911Data() {
   if (map.getSource("911-data")) {
     map.getSource("911-data").setData(geojson);
   } else {
-    map.addSource("911-data", { type: "geojson", data: geojson });
+    map.addSource("911-data", {
+      type: "geojson",
+      data: geojson
+    });
 
     map.addLayer({
       id: "911-points",
@@ -282,7 +292,9 @@ async function fetch911Data() {
         </div>
       `;
 
-      new mapboxgl.Popup({ offset: [0, -7] })
+      new mapboxgl.Popup({
+          offset: [0, -7]
+        })
         .setLngLat(coordinates)
         .setHTML(popupContent)
         .addTo(map);
@@ -306,94 +318,113 @@ let dangerZones = null; // Store 911 buffer danger zones
 
 // Ensure dangerZones is correctly populated from the 911 buffers
 function updateDangerZones() {
-    const bufferSource = map.getSource("911-buffers");
-    if (bufferSource) {
-        dangerZones = turf.featureCollection(bufferSource._data.features);
-    }
+  const bufferSource = map.getSource("911-buffers");
+  if (bufferSource) {
+    dangerZones = turf.featureCollection(bufferSource._data.features);
+  }
 }
 
 // 🔹 Function to Get Directions & Display Warning if Route Passes Danger Zones
 async function getRoute(start, end) {
-    updateDangerZones(); // Ensure latest buffer zones
+  updateDangerZones(); // Ensure latest buffer zones
 
-    const directionsURL = `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&steps=true&access_token=${mapboxgl.accessToken}`;
+  const directionsURL = `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&steps=true&access_token=${mapboxgl.accessToken}`;
 
-    let response = await fetch(directionsURL);
-    let data = await response.json();
-    let route = data.routes[0].geometry;
-    let steps = data.routes[0].legs[0].steps;
+  let response = await fetch(directionsURL);
+  let data = await response.json();
+  let route = data.routes[0].geometry;
+  let steps = data.routes[0].legs[0].steps;
 
-    let routeLine = turf.lineString(route.coordinates);
+  let routeLine = turf.lineString(route.coordinates);
 
-    // **Check if Route Intersects Any Danger Zones**
-    let intersects = false;
-    if (dangerZones) {
-        for (let buffer of dangerZones.features) {
-            if (turf.booleanIntersects(routeLine, buffer)) {
-                intersects = true;
-                break;
-            }
-        }
+  // **Check if Route Intersects Any Danger Zones**
+  let intersects = false;
+  if (dangerZones) {
+    for (let buffer of dangerZones.features) {
+      if (turf.booleanIntersects(routeLine, buffer)) {
+        intersects = true;
+        break;
+      }
     }
+  }
 
-    // 🔹 If danger zone detected, show a warning alert
-    if (intersects) {
-        alert("⚠ Caution: This route goes through a high-risk area. Stay aware of your surroundings and consider an alternate route if possible.");
-    }
+  // 🔹 If danger zone detected, show a warning alert
+  if (intersects) {
+    alert("⚠ Caution: This route goes through a high-risk area. Stay aware of your surroundings and consider an alternate route if possible.");
+  }
 
-    // If source exists, update it; otherwise, create new
-    if (map.getSource("route")) {
-        map.getSource("route").setData({ type: "Feature", geometry: route });
-    } else {
-        map.addSource("route", { type: "geojson", data: { type: "Feature", geometry: route } });
-        map.addLayer({
-            id: "route-layer",
-            type: "line",
-            source: "route",
-            layout: { "line-join": "round", "line-cap": "round" },
-            paint: { "line-color": intersects ? "#FF4500" : "#007AFF", "line-width": 4 }
-        });
-    }
+  // If source exists, update it; otherwise, create new
+  if (map.getSource("route")) {
+    map.getSource("route").setData({
+      type: "Feature",
+      geometry: route
+    });
+  } else {
+    map.addSource("route", {
+      type: "geojson",
+      data: {
+        type: "Feature",
+        geometry: route
+      }
+    });
+    map.addLayer({
+      id: "route-layer",
+      type: "line",
+      source: "route",
+      layout: {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      paint: {
+        "line-color": intersects ? "#FF4500" : "#007AFF",
+        "line-width": 4
+      }
+    });
+  }
 
-    // 🔹 Display Turn Instructions
-    const instructions = document.getElementById('instructions');
-    instructions.style.display = "block"; // Show instructions panel
-    let tripInstructions = `<p style="color: white; font-weight: bold;"><strong>Trip duration: ${Math.floor(data.routes[0].duration / 60)} min 🚶</strong></p><ol>`;
+  // 🔹 Display Turn Instructions
+  const instructions = document.getElementById('instructions');
+  instructions.style.display = "block"; // Show instructions panel
+  let tripInstructions = `<p style="color: white; font-weight: bold;"><strong>Trip duration: ${Math.floor(data.routes[0].duration / 60)} min 🚶</strong></p><ol>`;
 
-    for (const step of steps) {
-        tripInstructions += `<li>${step.maneuver.instruction}</li>`;
-    }
+  for (const step of steps) {
+    tripInstructions += `<li>${step.maneuver.instruction}</li>`;
+  }
 
-    instructions.innerHTML = tripInstructions + "</ol>";
+  instructions.innerHTML = tripInstructions + "</ol>";
 }
 
 // 🔹 Click Event to Set Start & End Points
 map.on("click", (e) => {
-    if (!navigationActive) return; // Prevent setting points unless navigation is active
+  if (!navigationActive) return; // Prevent setting points unless navigation is active
 
-    if (!startMarker) {
-        startMarker = new mapboxgl.Marker({ color: "green" }).setLngLat(e.lngLat).addTo(map);
-    } else if (!endMarker) {
-        endMarker = new mapboxgl.Marker({ color: "red" }).setLngLat(e.lngLat).addTo(map);
-        getRoute(startMarker.getLngLat().toArray(), endMarker.getLngLat().toArray());
-    } else {
-        resetNavigation();
-    }
+  if (!startMarker) {
+    startMarker = new mapboxgl.Marker({
+      color: "green"
+    }).setLngLat(e.lngLat).addTo(map);
+  } else if (!endMarker) {
+    endMarker = new mapboxgl.Marker({
+      color: "red"
+    }).setLngLat(e.lngLat).addTo(map);
+    getRoute(startMarker.getLngLat().toArray(), endMarker.getLngLat().toArray());
+  } else {
+    resetNavigation();
+  }
 });
 
 // 🔹 Reset Navigation Function
 function resetNavigation() {
-    if (startMarker) startMarker.remove();
-    if (endMarker) endMarker.remove();
-    startMarker = endMarker = null;
-    navigationActive = false;
+  if (startMarker) startMarker.remove();
+  if (endMarker) endMarker.remove();
+  startMarker = endMarker = null;
+  navigationActive = false;
 
-    document.getElementById("instructions").style.display = "none"; // Hide instructions panel
+  document.getElementById("instructions").style.display = "none"; // Hide instructions panel
 
-    if (map.getSource("route")) {
-        map.removeLayer("route-layer");
-        map.removeSource("route");
-    }
+  if (map.getSource("route")) {
+    map.removeLayer("route-layer");
+    map.removeSource("route");
+  }
 }
 
 
@@ -477,13 +508,13 @@ geojsonFetch();
 let sidebarState = 'open';
 
 // Wait for the page to fully load before opening sidebar
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        if (window.innerWidth > 768) {
-            openPanel();
-            sidebarState = 'open';
-        }
-    }, 300); // Small delay to ensure everything is loaded
+window.addEventListener('load', function () {
+  setTimeout(function () {
+    if (window.innerWidth > 768) {
+      openPanel();
+      sidebarState = 'open';
+    }
+  }, 300); // Small delay to ensure everything is loaded
 });
 
 // function for sidebar toggle buttons to open and close it
@@ -508,7 +539,7 @@ function togglePanel() {
         speed: 0.5,
         curve: 0.75,
         easing: (t) => t
-        });
+      });
     }
   } else {
     // closes sidebar if it was open before
@@ -535,7 +566,7 @@ function togglePanel() {
 }
 
 // moves sidebar and contents when window resizes, keeping sidebar visibility the same
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
   let screenWidth = window.innerWidth;
   if (screenWidth < 768 && sidebarState === 'open') {
     openPanelSmall();
@@ -606,40 +637,41 @@ function toggleFilter(button) {
   const icon = button.querySelector('i');
 
   if (icon.classList.contains('fa-toggle-on')) {
-      icon.classList.remove('fa-toggle-on');
-      icon.classList.add('fa-toggle-off');
-      visibility = 'visible';
+    icon.classList.remove('fa-toggle-on');
+    icon.classList.add('fa-toggle-off');
+    visibility = 'visible';
   } else {
-      icon.classList.remove('fa-toggle-off');
-      icon.classList.add('fa-toggle-on');
-      visibility = 'none';
+    icon.classList.remove('fa-toggle-off');
+    icon.classList.add('fa-toggle-on');
+    visibility = 'none';
   }
 
   return visibility;
 }
 
 // Wait for the DOM to be fully loaded before adding event listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Get the element with the class "icon"
   let icon = document.getElementsByClassName("icon")[0];
 
   // Add an event listener for the 'click' event on the icon element
   if (icon) {
-      icon.addEventListener('click', responsive_control);
+    icon.addEventListener('click', responsive_control);
   } else {
-      console.error("Navigation icon not found!");
+    console.error("Navigation icon not found!");
   }
 });
 
-let icon = document.getElementsByClassName("icon")[0];
+// Function to toggle the navbar when hamburger icon is clicked
+let navBtn = document.getElementsByClassName("icon")[0];
 
-icon.addEventListener('click', responsive_control);
+navBtn.addEventListener('click', responsive_control);
 
 function responsive_control() {
-  let x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
+  let nav = document.getElementById("myTopnav");
+  if (nav.className === "topnav") {
+    nav.className += " responsive";
   } else {
-    x.className = "topnav";
+    nav.className = "topnav";
   }
 }

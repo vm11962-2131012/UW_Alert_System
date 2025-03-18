@@ -1,12 +1,13 @@
-let icon = document.getElementsByClassName("icon")[0];
+// Function to toggle the navbar when hamburger icon is clicked
+let navBtn = document.getElementsByClassName("icon")[0];
 
-icon.addEventListener('click', responsive_control);
+navBtn.addEventListener('click', responsive_control);
 
 function responsive_control() {
-  let x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
+  let nav = document.getElementById("myTopnav");
+  if (nav.className === "topnav") {
+    nav.className += " responsive";
   } else {
-    x.className = "topnav";
+    nav.className = "topnav";
   }
-} 
+}
